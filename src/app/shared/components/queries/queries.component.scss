@@ -1,0 +1,26 @@
+section {
+	height: calc(100vh - 3rem);
+}
+
+table {
+	width: 100%;
+}
+
+.table-container {
+	max-height: calc(100vh - 230px);
+	overflow: auto;
+}
+
+.mat-form-field {
+	font-size: 14px;
+	width: 100%;
+}
+
+th {
+	font-size: 1rem;
+	color: black;
+}
+
+button {
+	margin-right: 1rem;
+}

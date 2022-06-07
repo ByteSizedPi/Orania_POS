@@ -1,0 +1,51 @@
+<section class="container">
+	<button
+		mat-raised-button
+		color="primary"
+		(click)="setDataSource(tbl.TRANSACTION)"
+	>
+		Transaksies
+	</button>
+	<button
+		mat-raised-button
+		color="primary"
+		(click)="setDataSource(tbl.CONSIGNOR)"
+	>
+		Afsenders
+	</button>
+	<mat-form-field appearance="standard">
+		<mat-label>Filter</mat-label>
+		<input
+			matInput
+			(keyup)="applyFilter($event)"
+			placeholder="Vb. Linte"
+			#input
+		/>
+	</mat-form-field>
+
+	<div class="table-container mat-elevation-z5">
+		<table
+			mat-table
+			[dataSource]="table.data"
+			class="mat-elevation-z8"
+			*ngIf="table"
+		>
+			<ng-container
+				*ngFor="let column of table.displayFormat"
+				[matColumnDef]="column.columnDef"
+			>
+				<th mat-header-cell *matHeaderCellDef>{{ column.header }}</th>
+				<td mat-cell *matCellDef="let row">{{ column.cell(row) }}</td>
+			</ng-container>
+
+			<tr mat-header-row *matHeaderRowDef="getHeaders(); sticky: true"></tr>
+			<tr mat-row *matRowDef="let row; columns: getHeaders()"></tr>
+
+			<tr class="mat-row" *matNoDataRow>
+				<td class="mat-cell" colspan="4">
+					No data matching the filter "{{ input.value }}"
+				</td>
+			</tr>
+		</table>
+	</div>
+</section>

@@ -1,0 +1,60 @@
+<div id="new-consignor-backdrop" class="dark-backdrop center">
+	<div id="new-consignor-modal" class="modal">
+		<h1>Nuwe Afsender</h1>
+		<div class="row space-between">
+			<mat-form-field appearance="fill">
+				<mat-label>Kode</mat-label>
+				<input
+					matInput
+					[formControl]="code"
+					required
+					minlength="3"
+					maxlength="3"
+					spellcheck="false"
+				/>
+				<mat-hint>3 karakters</mat-hint>
+				<mat-error *ngIf="code.errors?.minlength">
+					Kode moet 3 karakters lank wees
+				</mat-error>
+				<mat-error *ngIf="code.errors?.existError">
+					Kode bestaan klaar
+				</mat-error>
+			</mat-form-field>
+			<mat-form-field appearance="fill">
+				<mat-label>Naam en Van</mat-label>
+				<input
+					autocomplete="none"
+					matInput
+					[formControl]="name"
+					required
+					spellcheck="false"
+				/>
+				<mat-error *ngIf="name.invalid">Voer naam in</mat-error>
+			</mat-form-field>
+			<mat-form-field appearance="fill">
+				<mat-label>Selfoon Nommer</mat-label>
+				<input
+					autocomplete="none"
+					matInput
+					[formControl]="cellNr"
+					minlength="10"
+					maxlength="10"
+				/>
+				<mat-hint>10 nommers</mat-hint>
+			</mat-form-field>
+		</div>
+		<div class="row space-between">
+			<button mat-raised-button color="warn" (click)="modal.modalOut()">
+				Kanselleer
+			</button>
+			<button
+				mat-raised-button
+				color="primary"
+				[disabled]="code.invalid || name.invalid"
+				(click)="postConsignor()"
+			>
+				Voeg Afsender By
+			</button>
+		</div>
+	</div>
+</div>

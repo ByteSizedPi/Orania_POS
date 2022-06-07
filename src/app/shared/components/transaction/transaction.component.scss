@@ -1,0 +1,124 @@
+section {
+	height: calc(100vh - 3rem);
+}
+
+mat-form-field {
+	margin-right: 1rem;
+}
+
+table {
+	width: 100%;
+	// border-radius: 10px;
+	// background-color: var(--bg);
+	// .mat-table thead tr {
+	// background-color: var(--light);
+	// border: 2px solid var(--light);
+	// }
+}
+
+input,
+mat-icon,
+#price span {
+	color: white;
+}
+
+input::-webkit-outer-spin-button,
+input::-webkit-inner-spin-button {
+	display: none;
+}
+
+#kode {
+	width: 8rem;
+}
+
+#item {
+	width: 12rem;
+}
+
+#amount {
+	width: 7rem;
+}
+
+#price {
+	width: 8rem;
+}
+
+button {
+	margin-left: 2rem;
+}
+
+.add {
+	height: 59.5px;
+	width: 59.5px;
+	margin-top: 2px;
+}
+
+.table-container {
+	margin-top: 1.5rem;
+	max-height: calc(100vh - 82px - 48px - 48px - 1.5rem);
+	overflow: auto;
+}
+
+.total {
+	width: 9rem;
+	mat-label {
+		color: white;
+	}
+	input {
+		color: white;
+	}
+}
+
+th,
+.txt-lg {
+	font-size: 1.1rem;
+	color: black;
+	font-weight: 600;
+}
+
+.mat-column-code {
+	width: 10%;
+	padding-left: 1rem;
+}
+
+.mat-column-number {
+	width: 7%;
+}
+
+.mat-column-item {
+	width: 30%;
+}
+
+.mat-column-amount,
+.mat-column-price {
+	width: 15%;
+}
+
+.mat-column-total {
+	width: 25%;
+}
+
+.mat-raised-button {
+	margin-left: 0;
+	margin: 12px 0;
+}
+
+.mat-active {
+	background-color: rgb(170, 170, 170);
+}
+
+.add.cdk-focused {
+	background-color: var(--light);
+	animation: grow-outline 0.2s forwards;
+}
+
+@keyframes grow-outline {
+	from {
+		outline: var(--light) solid 0px;
+		outline-offset: 0px;
+	}
+	to {
+		outline: var(--light) solid 4px;
+		outline-offset: 5px;
+	}
+}
