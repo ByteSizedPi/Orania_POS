@@ -1,11 +1,11 @@
 <mat-tab-group dynamicHeight (selectedIndexChange)="tabChange($event)">
-	<mat-tab label="Nuwe Transaksie">
-		<app-transaction></app-transaction>
-	</mat-tab>
-	<mat-tab label="Afsenders">
-		<app-consignors *ngIf="activeTab === 1"></app-consignors>
-	</mat-tab>
-	<mat-tab label="Alle Tabelle">
+  <mat-tab label="Nuwe Transaksie">
+    <app-transaction></app-transaction>
+  </mat-tab>
+  <mat-tab label="Afsenders">
+    <app-consignors *ngIf="activeTab === 1"></app-consignors>
+  </mat-tab>
+  <!-- <mat-tab label="Alle Tabelle">
 		<app-invoice *ngIf="activeTab === 2"></app-invoice>
-	</mat-tab>
+	</mat-tab> -->
 </mat-tab-group>

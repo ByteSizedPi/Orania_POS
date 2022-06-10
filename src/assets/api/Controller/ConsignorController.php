@@ -1,22 +1,23 @@
 <?php
 class ConsignorController extends BaseController
 {
-	public ConsignorModel $consignor;
+  public ConsignorModel $consignor;
 
-	function __construct()
-	{
-		$this->consignor = new ConsignorModel();
-	}
+  function __construct()
+  {
+    $this->consignor = new ConsignorModel();
+  }
 
-	public function getAll()
-	{
-		$this->GET(fn () => $this->consignor->getAll());
-	}
+  public function getAll()
+  {
+    // $this->GET(fn () => $this->consignor->getAll());
+    $this->GET($this->consignor->getAll);
+  }
 
-	public function getIDs()
-	{
-		$ids = $this->consignor->getIDs();
-		$filtered = array_map(fn ($val) => $val['consignor_id'], $ids);
-		$this->GET(fn () => $filtered);
-	}
+  public function getIDs()
+  {
+    $ids = $this->consignor->getIDs();
+    $filtered = array_map(fn ($val) => $val['consignor_id'], $ids);
+    $this->GET(fn () => $filtered);
+  }
 }

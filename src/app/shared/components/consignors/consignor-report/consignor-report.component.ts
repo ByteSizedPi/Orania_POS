@@ -1,4 +1,4 @@
-import { InvoiceService } from './../../invoice/invoice.service';
+import { ID_Name } from './../../../models/types/Consignor';
 import {
   Transaction,
   TransactionRes,
@@ -34,7 +34,7 @@ type Series = { name: string; value: number };
   styleUrls: ['./consignor-report.component.scss'],
 })
 export class ConsignorReportComponent {
-  public allConsignors: Observable<Consignor[]>;
+  public allConsignors: Observable<ID_Name[]>;
   public curConsignor: Consignor | null;
 
   range = new FormGroup({
@@ -50,7 +50,12 @@ export class ConsignorReportComponent {
   showInvoice: boolean = false;
 
   chartData: { name: string; series: Series[] }[] | undefined;
-  invoiceData: Transaction[] | undefined;
+  invoiceData:
+    | {
+        transactions: Transaction[];
+        name: string;
+      }
+    | undefined;
 
   @ViewChild(MatPaginator) paginator: MatPaginator;
   @ViewChild(MatSort) sort: MatSort;
@@ -60,7 +65,8 @@ export class ConsignorReportComponent {
   dateShortcut: string = 'Dag';
 
   constructor(public query: QueryService, public modal: NewConsignorService) {
-    this.allConsignors = this.query.getAllConsignors();
+    this.allConsignors = this.query.getNames();
+    this.setDay();
   }
 
   setDay() {
@@ -143,11 +149,11 @@ export class ConsignorReportComponent {
       });
     });
 
-    this.query.getTransactionsForChart(body).subscribe((chart) => {
-      this.getChartData(chart, interval);
-      // console.log(chart);
-      this.chartIsAvailable = true;
-    });
+    // this.query.getTransactionsForChart(body).subscribe((chart) => {
+    //   this.getChartData(chart, interval);
+    //   // console.log(chart);
+    //   this.chartIsAvailable = true;
+    // });
   }
 
   getHeaders = () =>
@@ -190,8 +196,9 @@ export class ConsignorReportComponent {
       start: this.dateStart.toISOString(),
       end: this.dateEnd.toISOString(),
     };
+    const name = this.curConsignor.name_surname;
     this.query.getTransactions(body).subscribe((transactions) => {
-      this.invoiceData = transactions;
+      this.invoiceData = { transactions: transactions, name: name };
       this.showInvoice = true;
     });
   }

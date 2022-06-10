@@ -1,6 +1,7 @@
+import { QueryService } from 'src/app/shared/services/query.service';
 import { Component, ElementRef, Input, ViewChild } from '@angular/core';
 import { Transaction } from '../../models/types/Transaction';
-import jsPDF from 'jspdf';
+// import jsPDF from 'jspdf';
 import pdfMake from 'pdfmake/build/pdfmake';
 import pdfFonts from 'pdfmake/build/vfs_fonts';
 pdfMake.vfs = pdfFonts.pdfMake.vfs;
@@ -12,21 +13,28 @@ import htmlToPdfmake from 'html-to-pdfmake';
   styleUrls: ['./invoice.component.scss'],
 })
 export class InvoiceComponent {
-  name: string = 'Lee van Dyk';
-  invoiceNr: string = '#42';
-  @Input() data: Transaction[];
+  invoiceNr: number;
+  @Input() data: {
+    transactions: Transaction[];
+    name: string;
+  };
   @ViewChild('pdfTable') pdfTable: ElementRef;
 
-  constructor() {}
+  constructor(public query: QueryService) {
+    this.query.getInvoice().subscribe((num) => (this.invoiceNr = num));
+  }
 
   getTotal = () =>
-    this.data.map(({ total }) => +total).reduce((acc, val) => +acc + val, 0);
+    this.data.transactions
+      .map(({ total }) => +total)
+      .reduce((acc, val) => +acc + val, 0);
 
   downloadAsPDF() {
-    const doc = new jsPDF();
-    const pdfTable = this.pdfTable.nativeElement;
-    var html = htmlToPdfmake(pdfTable.innerHTML);
-    const documentDefinition = { content: html };
-    pdfMake.createPdf(documentDefinition).download();
+    this.query.updateInvoice().subscribe((res) => {
+      const pdfTable = this.pdfTable.nativeElement;
+      var html = htmlToPdfmake(pdfTable.innerHTML);
+      const documentDefinition = { content: html };
+      pdfMake.createPdf(documentDefinition).download();
+    });
   }
 }

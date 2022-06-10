@@ -1,4 +1,4 @@
-<section *ngIf="data" #pdfTable>
+<section *ngIf="data && invoiceNr" #pdfTable>
   <h1>Orania Kontreiwinkel</h1>
   <div class="row w-100 space-between">
     <h2>Faktuur</h2>
@@ -14,8 +14,8 @@
   </div>
   <hr />
   <div class="row w-100 space-between">
-    <h3>Aan: {{ name }}</h3>
-    <h3>Faktuur Nr: {{ invoiceNr }}</h3>
+    <h3>Aan: {{ data.name }}</h3>
+    <h3>Faktuur Nr: #{{ invoiceNr }}</h3>
   </div>
 
   <table cellspacing="0">
@@ -30,7 +30,7 @@
       </tr>
     </thead>
     <tbody>
-      <tr *ngFor="let row of data; index as i">
+      <tr *ngFor="let row of data.transactions; index as i">
         <td>{{ i + 1 }}</td>
         <td>{{ row.sale_timestamp | date: "dd/MM/yyyy" }}</td>
         <td>{{ row.item }}</td>

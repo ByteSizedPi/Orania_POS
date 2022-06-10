@@ -5,16 +5,27 @@ class TransactionModel extends Database
 {
   public function getAll()
   {
-    return $this->select("SELECT *, amount * unit_price AS 'total' FROM transaction");
+    $this->GET(
+      fn () => $this->select("SELECT *, amount * unit_price AS 'total' FROM transaction")
+    );
+    // return $this->select("SELECT *, amount * unit_price AS 'total' FROM transaction");
   }
 
   public function getItems()
   {
-    return $this->select("SELECT DISTINCT item FROM transaction");
+    // $ids = $this->transaction->getItems();
+    // $filtered = array_map(fn ($val) => $val['item'], $items);
+    // return $this->select("SELECT DISTINCT item FROM transaction");
+
+    $this->GET(
+      fn () => $this->select("SELECT DISTINCT item FROM transaction"),
+      fn ($items) => array_map(fn ($val) => $val['item'], $items)
+    );
   }
 
   public function getByIDDate($id, $start, $end)
   {
+    $this->GET(fn () => $this->transaction->getByIDDate($id, $start, $end));
     return $this->select("SELECT *, amount * unit_price AS total
 													FROM transaction
 													WHERE (consignor_id = '$id') AND

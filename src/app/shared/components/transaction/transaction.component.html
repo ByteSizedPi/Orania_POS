@@ -1,238 +1,236 @@
 <section class="container center-horizontal">
-	<div>
-		<form autocomplete="off" class="row">
-			<mat-form-field appearance="outline" id="kode" floatLabel="always">
-				<mat-label>Kode</mat-label>
-				<input
-					id="code-input"
-					type="text"
-					aria-label="Kode"
-					matInput
-					spellcheck="false"
-					[formControl]="codeControl"
-					[matAutocomplete]="codeAuto"
-					maxlength="3"
-					#codeTrigger="matAutocompleteTrigger"
-					[(ngModel)]="inputArr[0].value"
-				/>
-				<button
-					*ngIf="inputArr[0].value"
-					matSuffix
-					mat-icon-button
-					aria-label="Clear"
-					(click)="(inputArr[0].value = '') || tabTo(0, codeTrigger)"
-					tabindex="-1"
-				>
-					<mat-icon>close</mat-icon>
-				</button>
-				<mat-error *ngIf="codeControl.invalid">{{
-					codeControl.errors?.err
-				}}</mat-error>
+  <div>
+    <form autocomplete="off" class="row">
+      <mat-form-field appearance="outline" id="kode" floatLabel="always">
+        <mat-label>Kode</mat-label>
+        <input
+          id="code-input"
+          type="text"
+          aria-label="Kode"
+          matInput
+          spellcheck="false"
+          [formControl]="codeControl"
+          [matAutocomplete]="codeAuto"
+          maxlength="3"
+          #codeTrigger="matAutocompleteTrigger"
+          [(ngModel)]="inputArr[0].value"
+        />
+        <button
+          *ngIf="inputArr[0].value"
+          matSuffix
+          mat-icon-button
+          aria-label="Clear"
+          (click)="(inputArr[0].value = '') || tabTo(0, codeTrigger)"
+          tabindex="-1"
+        >
+          <mat-icon>close</mat-icon>
+        </button>
+        <mat-error *ngIf="codeControl.invalid">{{
+          codeControl.errors?.err
+        }}</mat-error>
 
-				<mat-autocomplete
-					#codeAuto="matAutocomplete"
-					(optionActivated)="inputArr[0].tempValue = $event.option?.value"
-					(closed)="onClose(0)"
-					(optionSelected)="
-						(inputArr[0].tempValue = inputArr[0].value =
-							$event.option?.value) && tabTo(1, itemTrigger)
-					"
-				>
-					<mat-option
-						*ngFor="let option of filteredCodes | async"
-						[value]="option"
-					>
-						{{ option }}
-					</mat-option>
-				</mat-autocomplete>
-			</mat-form-field>
+        <mat-autocomplete
+          #codeAuto="matAutocomplete"
+          (optionActivated)="inputArr[0].tempValue = $event.option?.value"
+          (closed)="onClose(0)"
+          (optionSelected)="
+            (inputArr[0].tempValue = inputArr[0].value =
+              $event.option?.value) && tabTo(1, itemTrigger)
+          "
+        >
+          <mat-option
+            *ngFor="let option of filteredCodes | async"
+            [value]="option"
+          >
+            {{ option }}
+          </mat-option>
+        </mat-autocomplete>
+      </mat-form-field>
 
-			<mat-form-field appearance="outline" id="item" floatLabel="always">
-				<mat-label>Item</mat-label>
-				<input
-					id="item-input"
-					type="text"
-					aria-label="Item"
-					matInput
-					spellcheck="false"
-					[formControl]="itemControl"
-					[matAutocomplete]="itemAuto"
-					[(ngModel)]="inputArr[1].value"
-					#itemTrigger="matAutocompleteTrigger"
-				/>
-				<button
-					*ngIf="inputArr[1].value"
-					matSuffix
-					mat-icon-button
-					aria-label="Clear"
-					(click)="inputArr[1].value = inputArr[1].tempValue = ''"
-					tabindex="-1"
-				>
-					<mat-icon (click)="tabTo(1, itemTrigger)">close</mat-icon>
-				</button>
-				<mat-autocomplete
-					#itemAuto="matAutocomplete"
-					(optionActivated)="inputArr[1].tempValue = $event.option?.value"
-					(closed)="onClose(1)"
-					(optionSelected)="
-						(inputArr[1].value = inputArr[1].tempValue = $event.option.value) &&
-							tabTo(2)
-					"
-				>
-					<mat-option
-						*ngFor="let option of filteredItems | async"
-						[value]="option"
-					>
-						{{ option }}
-					</mat-option>
-				</mat-autocomplete>
-			</mat-form-field>
+      <mat-form-field appearance="outline" id="item" floatLabel="always">
+        <mat-label>Item</mat-label>
+        <input
+          id="item-input"
+          type="text"
+          aria-label="Item"
+          matInput
+          spellcheck="false"
+          [formControl]="itemControl"
+          [matAutocomplete]="itemAuto"
+          [(ngModel)]="inputArr[1].value"
+          #itemTrigger="matAutocompleteTrigger"
+        />
+        <button
+          *ngIf="inputArr[1].value"
+          matSuffix
+          mat-icon-button
+          aria-label="Clear"
+          (click)="inputArr[1].value = inputArr[1].tempValue = ''"
+          tabindex="-1"
+        >
+          <mat-icon (click)="tabTo(1, itemTrigger)">close</mat-icon>
+        </button>
+        <mat-autocomplete
+          #itemAuto="matAutocomplete"
+          (optionActivated)="inputArr[1].tempValue = $event.option?.value"
+          (closed)="onClose(1)"
+          (optionSelected)="
+            (inputArr[1].value = inputArr[1].tempValue = $event.option.value) &&
+              tabTo(2)
+          "
+        >
+          <mat-option
+            *ngFor="let option of filteredItems | async"
+            [value]="option"
+          >
+            {{ option }}
+          </mat-option>
+        </mat-autocomplete>
+      </mat-form-field>
 
-			<mat-form-field appearance="outline" id="amount" floatLabel="always">
-				<mat-label>Hoeveel</mat-label>
-				<input
-					id="amount-input"
-					type="number"
-					min="1"
-					aria-label="Hoeveelheid"
-					matInput
-					spellcheck="false"
-					[formControl]="amountControl"
-					[(ngModel)]="inputArr[2].value"
-				/>
-			</mat-form-field>
+      <mat-form-field appearance="outline" id="amount" floatLabel="always">
+        <mat-label>Hoeveel</mat-label>
+        <input
+          id="amount-input"
+          type="number"
+          min="1"
+          aria-label="Hoeveelheid"
+          matInput
+          spellcheck="false"
+          [formControl]="amountControl"
+          [(ngModel)]="inputArr[2].value"
+        />
+      </mat-form-field>
 
-			<mat-form-field appearance="outline" id="price" floatLabel="always">
-				<mat-label>Prys</mat-label>
-				<span matPrefix>R &nbsp;</span>
-				<input
-					id="price-input"
-					type="number"
-					aria-label="Prys"
-					matInput
-					spellcheck="false"
-					[formControl]="priceControl"
-					[(ngModel)]="inputArr[3].value"
-				/>
-			</mat-form-field>
+      <mat-form-field appearance="outline" id="price" floatLabel="always">
+        <mat-label>Prys</mat-label>
+        <span matPrefix>R &nbsp;</span>
+        <input
+          id="price-input"
+          type="number"
+          aria-label="Prys"
+          matInput
+          spellcheck="false"
+          [formControl]="priceControl"
+          [(ngModel)]="inputArr[3].value"
+        />
+      </mat-form-field>
 
-			<mat-form-field appearance="outline" class="total" floatLabel="always">
-				<mat-label>Totaal</mat-label>
-				<!-- <span matPrefix>R &nbsp;</span> -->
-				<input
-					disabled
-					matInput
-					[value]="+inputArr[2].value * +inputArr[3].value | currency: 'R '"
-				/>
-			</mat-form-field>
+      <mat-form-field appearance="outline" class="total" floatLabel="always">
+        <mat-label>Totaal</mat-label>
+        <!-- <span matPrefix>R &nbsp;</span> -->
+        <input
+          disabled
+          matInput
+          [value]="+inputArr[2].value * +inputArr[3].value | currency: 'R '"
+        />
+      </mat-form-field>
 
-			<!-- <div class="total">
+      <!-- <div class="total">
 				{{ +inputArr[2].value * +inputArr[3].value | currency: "R " }}
 			</div> -->
 
-			<button
-				class="add"
-				type="button"
-				mat-fab
-				color="primary"
-				aria-label="Add Item"
-				(click)="addItem(codeTrigger)"
-				[disabled]="isValidTransaction()"
-			>
-				<mat-icon>add</mat-icon>
-			</button>
-		</form>
+      <button
+        class="add"
+        type="button"
+        mat-fab
+        color="primary"
+        aria-label="Add Item"
+        (click)="addItem(codeTrigger)"
+        [disabled]="isValidTransaction()"
+      >
+        <mat-icon>add</mat-icon>
+      </button>
+    </form>
 
-		<div class="table-container">
-			<table mat-table [dataSource]="list">
-				<ng-container matColumnDef="number">
-					<th mat-header-cell *matHeaderCellDef>No.</th>
-					<td mat-cell *matCellDef="let element; index as i">{{ i + 1 }}</td>
-				</ng-container>
-				<ng-container matColumnDef="code">
-					<th mat-header-cell *matHeaderCellDef>Kode</th>
-					<td mat-cell *matCellDef="let element">{{ element.consignor_id }}</td>
-				</ng-container>
-				<ng-container matColumnDef="item">
-					<th mat-header-cell *matHeaderCellDef>Item</th>
-					<td mat-cell *matCellDef="let element">
-						{{ element.item }}
-					</td>
-				</ng-container>
-				<ng-container matColumnDef="amount">
-					<th mat-header-cell *matHeaderCellDef>Hoeveel</th>
-					<td mat-cell *matCellDef="let element">{{ element.amount }}</td>
-				</ng-container>
-				<ng-container matColumnDef="price">
-					<th mat-header-cell *matHeaderCellDef>Prys</th>
-					<td
-						mat-cell
-						*matCellDef="let element"
-						[ngStyle]="{
-							color: element.unit_price > 0 ? 'var(--green)' : 'var(--red)'
-						}"
-					>
-						{{ element.unit_price | currency: "R " }}
-					</td>
-				</ng-container>
-				<ng-container matColumnDef="total">
-					<th mat-header-cell *matHeaderCellDef>Totaal</th>
-					<td
-						mat-cell
-						*matCellDef="let element; index as i"
-						[ngStyle]="{
-							color: element.unit_price > 0 ? 'var(--green)' : 'var(--red)'
-						}"
-					>
-						{{ element.amount * element.unit_price | currency: "R " }}
-						<button
-							matSuffix
-							mat-icon-button
-							aria-label="Clear"
-							(click)="popItem(i)"
-						>
-							<mat-icon>close</mat-icon>
-						</button>
-					</td>
-				</ng-container>
+    <div class="table-container">
+      <table mat-table [dataSource]="list">
+        <ng-container matColumnDef="number">
+          <th mat-header-cell *matHeaderCellDef>No.</th>
+          <td mat-cell *matCellDef="let element; index as i">{{ i + 1 }}</td>
+        </ng-container>
+        <ng-container matColumnDef="code">
+          <th mat-header-cell *matHeaderCellDef>Kode</th>
+          <td mat-cell *matCellDef="let element">{{ element.consignor_id }}</td>
+        </ng-container>
+        <ng-container matColumnDef="item">
+          <th mat-header-cell *matHeaderCellDef>Item</th>
+          <td mat-cell *matCellDef="let element">
+            {{ element.item }}
+          </td>
+        </ng-container>
+        <ng-container matColumnDef="amount">
+          <th mat-header-cell *matHeaderCellDef>Hoeveel</th>
+          <td mat-cell *matCellDef="let element">{{ element.amount }}</td>
+        </ng-container>
+        <ng-container matColumnDef="price">
+          <th mat-header-cell *matHeaderCellDef>Prys</th>
+          <td
+            mat-cell
+            *matCellDef="let element"
+            [ngClass]="element.classes ? element.classes(element) : ''"
+          >
+            {{ element.unit_price | currency: "R " }}
+          </td>
+        </ng-container>
+        <ng-container matColumnDef="total">
+          <th mat-header-cell *matHeaderCellDef>Totaal</th>
+          <td
+            mat-cell
+            *matCellDef="let element; index as i"
+            [ngStyle]="{
+              color: element.unit_price > 0 ? 'var(--green)' : 'var(--red)'
+            }"
+          >
+            {{ element.amount * element.unit_price | currency: "R " }}
+            <button
+              matSuffix
+              mat-icon-button
+              aria-label="Clear"
+              (click)="popItem(i)"
+            >
+              <mat-icon>close</mat-icon>
+            </button>
+          </td>
+        </ng-container>
 
-				<ng-container matColumnDef="complete-transaction">
-					<td mat-footer-cell *matFooterCellDef colspan="4">
-						<button
-							mat-raised-button
-							color="accent"
-							(click)="completeTransaction()"
-							[disabled]="list.length === 0"
-						>
-							Hersien Transaksie
-						</button>
-					</td>
-				</ng-container>
+        <ng-container matColumnDef="complete-transaction">
+          <td mat-footer-cell *matFooterCellDef colspan="4">
+            <button
+              mat-raised-button
+              color="accent"
+              (click)="completeTransaction()"
+              [disabled]="list.length === 0"
+            >
+              Hersien Transaksie
+            </button>
+          </td>
+        </ng-container>
 
-				<ng-container matColumnDef="total-label">
-					<td mat-footer-cell *matFooterCellDef colspan="1" class="txt-lg">
-						Totaal:
-					</td>
-				</ng-container>
+        <ng-container matColumnDef="total-label">
+          <td mat-footer-cell *matFooterCellDef colspan="1" class="txt-lg">
+            Totaal:
+          </td>
+        </ng-container>
 
-				<ng-container matColumnDef="total-calc">
-					<td mat-footer-cell *matFooterCellDef colspan="1" class="txt-lg">
-						{{ transaction.getTotal() | currency: "R " }}
-					</td>
-				</ng-container>
+        <ng-container matColumnDef="total-calc">
+          <td mat-footer-cell *matFooterCellDef colspan="1" class="txt-lg">
+            {{ transaction.getTotal() | currency: "R " }}
+          </td>
+        </ng-container>
 
-				<tr
-					mat-header-row
-					*matHeaderRowDef="displayedColumns; sticky: true"
-				></tr>
-				<tr mat-row *matRowDef="let row; columns: displayedColumns"></tr>
-				<tr
-					mat-footer-row
-					*matFooterRowDef="['complete-transaction']; sticky: true"
-				></tr>
-				<tr mat-footer *matFooterRowDef="['total-label']; sticky: true"></tr>
-				<tr mat-footer *matFooterRowDef="['total-calc']; sticky: true"></tr>
-			</table>
-		</div>
-	</div>
+        <tr
+          mat-header-row
+          *matHeaderRowDef="displayedColumns; sticky: true"
+        ></tr>
+        <tr mat-row *matRowDef="let row; columns: displayedColumns"></tr>
+        <tr
+          mat-footer-row
+          *matFooterRowDef="['complete-transaction']; sticky: true"
+        ></tr>
+        <tr mat-footer *matFooterRowDef="['total-label']; sticky: true"></tr>
+        <tr mat-footer *matFooterRowDef="['total-calc']; sticky: true"></tr>
+      </table>
+    </div>
+  </div>
 </section>
