@@ -1,30 +1,32 @@
-import { Transaction } from './Transaction';
-import { Consignor } from './Consignor';
 import { MatTableDataSource } from '@angular/material/table';
 
 export enum TABLESTRING {
   TRANSACTION = 'transaction',
   CONSIGNOR = 'consignor',
 }
-
-export interface Column<Field> {
-  columnDef: string;
+interface BaseColumn<Field> {
   header: string;
   cell: (el: Field) => string;
   classes?: (el: Field) => string[];
 }
 
-export type Data = Consignor | Transaction;
-export type TableData = Table<Consignor> | Table<Transaction>;
+export interface Column<Field> extends BaseColumn<Field> {
+  columnDef: string;
+}
 
 export class Table<Type> {
   data: MatTableDataSource<Type>;
-  compactDisplayFormat: Column<Type>[];
-  constructor(
-    public tableName: TABLESTRING,
-    public displayFormat: Column<Type>[],
-    data: Type[]
-  ) {
+  compactDisplayFormat?: Column<Type>[];
+  displayFormat: Column<Type>[];
+  // public tableName: TABLESTRING,
+  constructor(displayFormat: BaseColumn<Type>[], data: Type[]) {
     this.data = new MatTableDataSource(data);
+    this.displayFormat = this.getKeys(displayFormat);
   }
+
+  private getKeys = (displayFormat: BaseColumn<Type>[]) =>
+    (this.displayFormat = displayFormat.map((el, i) => ({
+      columnDef: Object.keys(el)[i],
+      ...el,
+    })));
 }

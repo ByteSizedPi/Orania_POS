@@ -1,52 +1,56 @@
 .dark-backdrop {
-	position: absolute;
-	top: 0;
-	left: 0;
-	width: 100vw;
-	height: 100vh;
-	background-color: rgb(0, 0, 0, 0.5);
-	z-index: 10;
-	opacity: 0;
-	pointer-events: none;
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100vw;
+  height: 100vh;
+  background-color: rgb(0, 0, 0, 0.5);
+  z-index: 10;
+  opacity: 0;
+  pointer-events: none;
+}
+
+input {
+  color: white;
 }
 
 .modal {
-	background-color: var(--bg);
-	border-radius: 5px;
-	box-shadow: 0px 2px 10px 2px rgb(0, 0, 0, 0.2);
-	transform: translateY(50vh);
-	opacity: 0;
-	padding: 1rem;
+  background-color: var(--bg);
+  border-radius: 5px;
+  box-shadow: 0px 2px 10px 2px rgb(0, 0, 0, 0.2);
+  transform: translateY(50vh);
+  opacity: 0;
+  padding: 1rem;
 }
 
 h1 {
-	margin: 1rem;
-	color: white;
+  margin: 1rem;
+  color: white;
 }
 
 mat-form-field,
 button {
-	margin: 1rem;
+  margin: 1rem;
 }
 
 @keyframes modal-in {
-	from {
-		transform: translateY(50vh);
-		opacity: 0;
-	}
-	to {
-		transform: translateY(0);
-		opacity: 1;
-	}
+  from {
+    transform: translateY(50vh);
+    opacity: 0;
+  }
+  to {
+    transform: translateY(0);
+    opacity: 1;
+  }
 }
 
 @keyframes modal-out {
-	from {
-		transform: translateY(0);
-		opacity: 1;
-	}
-	to {
-		transform: translateY(50vh);
-		opacity: 0;
-	}
+  from {
+    transform: translateY(0);
+    opacity: 1;
+  }
+  to {
+    transform: translateY(50vh);
+    opacity: 0;
+  }
 }

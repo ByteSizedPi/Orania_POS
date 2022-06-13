@@ -4,11 +4,8 @@ import {
   ID_Name,
 } from './../models/types/Consignor';
 import {
-  Transaction,
+  FullTransaction,
   TransactionTable,
-  Report,
-  ReportTable,
-  TransactionRes,
 } from './../models/types/Transaction';
 import { TransactionService } from './transaction.service';
 import { map } from 'rxjs/operators';
@@ -21,12 +18,19 @@ type IDDate = {
   end: string;
 };
 
+type SubConsignor = {
+  consignor_id: string;
+  name_surname: string;
+  cell_nr: string;
+};
+
 @Injectable({
   providedIn: 'root',
 })
 export class QueryService {
   BASE_URL = 'https://www.kontreiwinkelorania.co.za/assets/api/';
   ALT = 'https://www.kontreiwinkelorania.co.za/api/index.php/';
+  POST_URL = 'https://www.kontreiwinkelorania.co.za/api/';
 
   constructor(
     private http: HttpClient,
@@ -34,8 +38,12 @@ export class QueryService {
   ) {}
 
   httpGet = <E>(params: string) => this.http.get<E>(this.ALT + params);
+
+  httpPut = (params: string, body: any = {}) =>
+    this.http.put(this.POST_URL + params, body);
+
   httpPost = (params: string, body: any = {}) =>
-    this.http.post(this.ALT + params, body);
+    this.http.post(this.POST_URL + params, body);
 
   getAllConsignors = () => this.httpGet<Consignor[]>('consignor');
 
@@ -47,11 +55,8 @@ export class QueryService {
 
   getInvoice = () => this.httpGet<number>('transaction/invoice');
 
-  updateInvoice = () => this.httpPost('transaction/invoice');
-  // updateInvoice = () => this.http.put('transaction/invoice', {});
-
   getTransactions = ({ id, start, end }: IDDate) =>
-    this.httpGet<Transaction[]>(
+    this.httpGet<FullTransaction[]>(
       `transaction/subset?id=${id}&start=${start}&end=${end}`
     );
 
@@ -62,6 +67,14 @@ export class QueryService {
     this.getTransactions(idDate).pipe(
       map((rows) => new TransactionTable(rows))
     );
+
+  updateInvoice = () => this.httpPut('PUT_invoice.php');
+
+  postTransaction = () =>
+    this.httpPost('POST_transaction.php', this.transaction.getList());
+
+  postConsignor = (body: SubConsignor) =>
+    this.httpPost('POST_consignor.php', body);
 
   // getStats = (body: { start: string; end: string }) =>
   // 	this.http
@@ -83,15 +96,9 @@ export class QueryService {
   //     body
   //   );
 
-  postTransaction = () =>
-    this.http.post(
-      this.BASE_URL + 'transactions/post.php',
-      this.transaction.getList()
-    );
-
-  postConsignor = (body: {
-    consignor_id: string;
-    name_surname: string;
-    cell_nr: string;
-  }) => this.http.post(this.BASE_URL + 'consignors/post.php', body);
+  // postConsignor = (body: {
+  //   consignor_id: string;
+  //   name_surname: string;
+  //   cell_nr: string;
+  // }) => this.http.post(this.BASE_URL + 'consignors/post.php', body);
 }

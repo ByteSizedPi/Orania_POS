@@ -1,8 +1,5 @@
 import { ID_Name } from './../../../models/types/Consignor';
-import {
-  Transaction,
-  TransactionRes,
-} from './../../../models/types/Transaction';
+import { FullTransaction } from './../../../models/types/Transaction';
 import { Component, OnInit, ViewChild } from '@angular/core';
 import { FormControl, FormGroup } from '@angular/forms';
 import { MatSidenav } from '@angular/material/sidenav';
@@ -52,7 +49,7 @@ export class ConsignorReportComponent {
   chartData: { name: string; series: Series[] }[] | undefined;
   invoiceData:
     | {
-        transactions: Transaction[];
+        transactions: FullTransaction[];
         name: string;
       }
     | undefined;
@@ -161,28 +158,28 @@ export class ConsignorReportComponent {
       ({ columnDef }) => columnDef
     );
 
-  getChartData = (chart: TransactionRes[], interval: Interval) => {
-    this.chartData = [];
-    if (!this.dateEnd || !this.dateStart || !chart[0]) return;
+  // getChartData = (chart: TransactionRes[], interval: Interval) => {
+  //   this.chartData = [];
+  //   if (!this.dateEnd || !this.dateStart || !chart[0]) return;
 
-    let iterChart = chart[Symbol.iterator]();
-    let curItem = iterChart.next().value;
+  //   let iterChart = chart[Symbol.iterator]();
+  //   let curItem = iterChart.next().value;
 
-    loopDays(this.dateStart, this.dateEnd, (date: Date) => {
-      let series: Series[] = [];
-      const valid = () =>
-        curItem && new Date(curItem.sale_timestamp).isSameDay(date);
+  //   loopDays(this.dateStart, this.dateEnd, (date: Date) => {
+  //     let series: Series[] = [];
+  //     const valid = () =>
+  //       curItem && new Date(curItem.sale_timestamp).isSameDay(date);
 
-      while (valid()) {
-        series.push({ name: curItem.item, value: +curItem.total });
-        curItem = iterChart.next().value;
-      }
-      this.chartData?.push({
-        name: `${date.toLocaleDateString('en-za')}`,
-        series: series,
-      });
-    });
-  };
+  //     while (valid()) {
+  //       series.push({ name: curItem.item, value: +curItem.total });
+  //       curItem = iterChart.next().value;
+  //     }
+  //     this.chartData?.push({
+  //       name: `${date.toLocaleDateString('en-za')}`,
+  //       series: series,
+  //     });
+  //   });
+  // };
 
   getTotal = () =>
     this.transactionTable?.data.data

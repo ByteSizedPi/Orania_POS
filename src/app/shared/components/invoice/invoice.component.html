@@ -32,7 +32,9 @@
     <tbody>
       <tr *ngFor="let row of data.transactions; index as i">
         <td>{{ i + 1 }}</td>
-        <td>{{ row.sale_timestamp | date: "dd/MM/yyyy" }}</td>
+        <td>
+          {{ row.sale_timestamp | date: "dd/MM/yyyy" }}
+        </td>
         <td>{{ row.item }}</td>
         <td>{{ row.amount }}</td>
         <td>{{ row.unit_price | currency: "R " }}</td>

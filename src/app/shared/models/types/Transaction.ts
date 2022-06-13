@@ -1,105 +1,139 @@
-import { Table, TABLESTRING } from './Types';
+import { toCurrency } from './Utils';
+import { Table, Column } from './Types';
 
-export interface Transaction {
+interface BaseTransaction {
   item: string;
   amount: number;
-  sale_timestamp: string;
-  transaction_id: number;
-  sequence: number;
-  consignor_id: string;
   unit_price: number;
   total: number;
 }
 
-export interface TransactionRes {
-  item: string;
-  count: number;
+export interface FullTransaction extends BaseTransaction {
+  consignor_id: string;
   sale_timestamp: string;
+}
+
+// export interface TransactionRes {
+//   item: string;
+//   count: number;
+//   sale_timestamp: string;
+//   total: number;
+// }
+
+export interface Item extends BaseTransaction {
+  consignor_id: string;
+  sale_timestamp?: string;
+}
+
+export interface Report {
+  consignor_id: string;
+  name_surname: string;
+  date: string;
   total: number;
 }
 
-export class TransactionTable extends Table<Transaction> {
-  compactDisplayFormat = [
+export class NewTransactionTable extends Table<Item> {
+  constructor(data: FullTransaction[]) {
+    super(
+      [
+        {
+          header: 'Kode',
+          cell: (el) => `${el.consignor_id}`,
+        },
+        {
+          header: 'Item',
+          cell: (el) => `${el.item}`,
+        },
+        {
+          header: 'Aantal',
+          cell: (el) => `${el.amount}`,
+        },
+        {
+          header: 'Eenheid Prys',
+          cell: (el) => toCurrency(el.unit_price),
+        },
+        {
+          header: 'Totaal',
+          cell: (el) => toCurrency(el.total),
+        },
+      ],
+      data
+    );
+  }
+}
+
+export class TransactionTable extends Table<FullTransaction> {
+  compactDisplayFormat: Column<FullTransaction>[] = [
     {
       columnDef: 'item',
       header: 'Item',
-      cell: (el: Transaction) => `${el.item}`,
+      cell: (el) => `${el.item}`,
     },
     {
       columnDef: 'sale_timestamp',
       header: 'Verkoop Tydstempel',
-      cell: (el: Transaction) => el.sale_timestamp,
+      cell: (el) => el.sale_timestamp,
     },
 
     {
       columnDef: 'amount',
-      header: 'Hoeveel',
-      cell: (el: Transaction) => `${el.amount}`,
+      header: 'Aantal',
+      cell: (el) => `${el.amount}`,
     },
     {
       columnDef: 'unit_price',
       header: 'Eenheid Prys',
-      cell: (el: Transaction) => {
+      cell: (el) => {
         var formatter = new Intl.NumberFormat('en-ZA', {
           style: 'currency',
           currency: 'ZAR',
         });
         return formatter.format(el.unit_price);
       },
-      classes: (el: Transaction) => (el.unit_price > 0 ? ['green'] : ['red']),
+      classes: (el) => (el.unit_price > 0 ? ['green'] : ['red']),
     },
     {
       columnDef: 'total',
       header: 'Totaal',
-      cell: (el: Transaction) => {
+      cell: (el) => {
         var formatter = new Intl.NumberFormat('en-ZA', {
           style: 'currency',
           currency: 'ZAR',
         });
         return formatter.format(el.total);
       },
-      classes: (el: Transaction) => (el.unit_price > 0 ? ['green'] : ['red']),
+      classes: (el) => (el.unit_price > 0 ? ['green'] : ['red']),
     },
   ];
-  constructor(data: Transaction[]) {
+  constructor(data: FullTransaction[]) {
     super(
-      TABLESTRING.TRANSACTION,
+      // TABLESTRING.TRANSACTION,
       [
         {
-          columnDef: 'transaction_id',
-          header: 'Transaksie Indeks',
-          cell: (el: Transaction) => `${el.transaction_id}`,
-        },
-        {
-          columnDef: 'sequence',
-          header: 'Transaksie Nommer',
-          cell: (el: Transaction) => `${el.sequence}`,
-        },
-        {
-          columnDef: 'seller_id',
+          // columnDef: 'seller_id',
           header: 'Verkoper Kode',
-          cell: (el: Transaction) => `${el.consignor_id}`,
+          cell: (el: FullTransaction) => `${el.consignor_id}`,
         },
 
         {
-          columnDef: 'sale_timestamp',
+          // columnDef: 'sale_timestamp',
           header: 'Verkoop Tydstempel',
-          cell: (el: Transaction) => el.sale_timestamp,
+          cell: (el: FullTransaction) => el.sale_timestamp,
         },
         {
-          columnDef: 'item',
+          // columnDef: 'item',
           header: 'Item',
-          cell: (el: Transaction) => `${el.item}`,
+          cell: (el: FullTransaction) => `${el.item}`,
         },
         {
-          columnDef: 'amount',
-          header: 'Hoeveel',
-          cell: (el: Transaction) => `${el.amount}`,
+          // columnDef: 'amount',
+          header: 'Aantal',
+          cell: (el: FullTransaction) => `${el.amount}`,
         },
         {
-          columnDef: 'unit_price',
+          // columnDef: 'unit_price',
           header: 'Eenheid Prys',
-          cell: (el: Transaction) => {
+          cell: (el: FullTransaction) => {
             var formatter = new Intl.NumberFormat('en-ZA', {
               style: 'currency',
               currency: 'ZAR',
@@ -108,9 +142,9 @@ export class TransactionTable extends Table<Transaction> {
           },
         },
         {
-          columnDef: 'total',
+          // columnDef: 'total',
           header: 'Totaal',
-          cell: (el: Transaction) => {
+          cell: (el: FullTransaction) => {
             var formatter = new Intl.NumberFormat('en-ZA', {
               style: 'currency',
               currency: 'ZAR',
@@ -127,31 +161,25 @@ export class TransactionTable extends Table<Transaction> {
 export class ReportTable extends Table<Report> {
   constructor(data: Report[]) {
     super(
-      TABLESTRING.TRANSACTION,
+      // TABLESTRING.TRANSACTION,
       [
         {
-          columnDef: 'consignor_id',
+          // columnDef: 'consignor_id',
           header: 'Afsender Kode',
           cell: (el: Report) => `${el.consignor_id}`,
         },
         {
-          columnDef: 'name_surname',
+          // columnDef: 'name_surname',
           header: 'Naam',
           cell: (el: Report) => `${el.name_surname}`,
         },
         {
-          columnDef: 'seller_id',
-          header: 'Verkoper Kode',
-          cell: (el: Report) => `${el.consignor_id}`,
-        },
-
-        {
-          columnDef: 'date',
+          // columnDef: 'date',
           header: 'Datum',
           cell: (el: Report) => el.date,
         },
         {
-          columnDef: 'total',
+          // columnDef: 'total',
           header: 'totaal',
           cell: (el: Report) => `${el.total}`,
         },
@@ -159,18 +187,4 @@ export class ReportTable extends Table<Report> {
       data
     );
   }
-}
-
-export interface Item {
-  item: string;
-  amount: number;
-  unit_price: number;
-  consignor_id: string;
-}
-
-export interface Report {
-  consignor_id: string;
-  name_surname: string;
-  date: string;
-  total: number;
 }

@@ -1,4 +1,35 @@
 <section class="container center-horizontal">
+  <div class="modal" *ngIf="invoiceData && showInvoice">
+    <div class="invoice-controls">
+      <button
+        type="button"
+        mat-raised-button
+        color="warn"
+        (click)="showInvoice = false"
+      >
+        <mat-icon>keyboard_arrow_left</mat-icon>Terug
+      </button>
+      <button
+        type="button"
+        mat-raised-button
+        color="accent"
+        (click)="printInvoice()"
+      >
+        <mat-icon>picture_as_pdf</mat-icon>
+        Druk PDF
+      </button>
+      <button
+        type="button"
+        mat-raised-button
+        color="accent"
+        (click)="complete()"
+      >
+        <mat-icon>done</mat-icon>
+        Voltooi Transaksie
+      </button>
+    </div>
+    <app-invoice [data]="invoiceData"></app-invoice>
+  </div>
   <div>
     <form autocomplete="off" class="row">
       <mat-form-field appearance="outline" id="kode" floatLabel="always">
@@ -6,7 +37,7 @@
         <input
           id="code-input"
           type="text"
-          aria-label="Kode"
+          aria-label="id"
           matInput
           spellcheck="false"
           [formControl]="codeControl"
@@ -20,22 +51,21 @@
           matSuffix
           mat-icon-button
           aria-label="Clear"
-          (click)="(inputArr[0].value = '') || tabTo(0, codeTrigger)"
+          (click)="clearThenTabTo(0, codeTrigger)"
           tabindex="-1"
         >
           <mat-icon>close</mat-icon>
         </button>
-        <mat-error *ngIf="codeControl.invalid">{{
-          codeControl.errors?.err
-        }}</mat-error>
+        <mat-error *ngIf="codeControl.invalid">
+          {{ codeControl.errors?.err }}
+        </mat-error>
 
         <mat-autocomplete
           #codeAuto="matAutocomplete"
           (optionActivated)="inputArr[0].tempValue = $event.option?.value"
           (closed)="onClose(0)"
           (optionSelected)="
-            (inputArr[0].tempValue = inputArr[0].value =
-              $event.option?.value) && tabTo(1, itemTrigger)
+            optionSelected(0, $event.option?.value, itemTrigger)
           "
         >
           <mat-option
@@ -65,7 +95,7 @@
           matSuffix
           mat-icon-button
           aria-label="Clear"
-          (click)="inputArr[1].value = inputArr[1].tempValue = ''"
+          (click)="clearThenTabTo(1, codeTrigger)"
           tabindex="-1"
         >
           <mat-icon (click)="tabTo(1, itemTrigger)">close</mat-icon>
@@ -75,8 +105,7 @@
           (optionActivated)="inputArr[1].tempValue = $event.option?.value"
           (closed)="onClose(1)"
           (optionSelected)="
-            (inputArr[1].value = inputArr[1].tempValue = $event.option.value) &&
-              tabTo(2)
+            optionSelected(1, $event.option?.value, itemTrigger)
           "
         >
           <mat-option
@@ -118,17 +147,12 @@
 
       <mat-form-field appearance="outline" class="total" floatLabel="always">
         <mat-label>Totaal</mat-label>
-        <!-- <span matPrefix>R &nbsp;</span> -->
         <input
           disabled
           matInput
           [value]="+inputArr[2].value * +inputArr[3].value | currency: 'R '"
         />
       </mat-form-field>
-
-      <!-- <div class="total">
-				{{ +inputArr[2].value * +inputArr[3].value | currency: "R " }}
-			</div> -->
 
       <button
         class="add"
@@ -160,7 +184,7 @@
           </td>
         </ng-container>
         <ng-container matColumnDef="amount">
-          <th mat-header-cell *matHeaderCellDef>Hoeveel</th>
+          <th mat-header-cell *matHeaderCellDef>Aantal</th>
           <td mat-cell *matCellDef="let element">{{ element.amount }}</td>
         </ng-container>
         <ng-container matColumnDef="price">
@@ -199,7 +223,7 @@
             <button
               mat-raised-button
               color="accent"
-              (click)="completeTransaction()"
+              (click)="previewInvoice()"
               [disabled]="list.length === 0"
             >
               Hersien Transaksie

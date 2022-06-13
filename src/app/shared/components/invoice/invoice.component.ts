@@ -1,6 +1,7 @@
+import { Item } from './../../models/types/Transaction';
 import { QueryService } from 'src/app/shared/services/query.service';
 import { Component, ElementRef, Input, ViewChild } from '@angular/core';
-import { Transaction } from '../../models/types/Transaction';
+import { FullTransaction } from '../../models/types/Transaction';
 // import jsPDF from 'jspdf';
 import pdfMake from 'pdfmake/build/pdfmake';
 import pdfFonts from 'pdfmake/build/vfs_fonts';
@@ -15,8 +16,8 @@ import htmlToPdfmake from 'html-to-pdfmake';
 export class InvoiceComponent {
   invoiceNr: number;
   @Input() data: {
-    transactions: Transaction[];
-    name: string;
+    transactions: FullTransaction[] | Item[];
+    name?: string;
   };
   @ViewChild('pdfTable') pdfTable: ElementRef;
 
