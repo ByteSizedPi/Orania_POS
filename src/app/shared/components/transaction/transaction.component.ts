@@ -1,14 +1,8 @@
 import { TransactionService } from '../../services/transaction.service';
 import { TransactionEventService } from './confirm-transaction/transaction-modal.service';
 import { QueryService } from './../../services/query.service';
-import { query, queryAll, Id } from '../../models/types/Utils';
-import {
-  AfterContentInit,
-  AfterViewInit,
-  Component,
-  OnInit,
-  ViewChild,
-} from '@angular/core';
+import { Id } from '../../models/types/Utils';
+import { AfterViewInit, Component, OnInit, ViewChild } from '@angular/core';
 import {
   AbstractControl,
   FormControl,
@@ -190,7 +184,7 @@ export class TransactionComponent implements OnInit, AfterViewInit {
 
   complete() {
     this.queryService.postTransaction().subscribe((_) => {
-      this.list = [];
+      this.transaction.setList((this.list = []));
       this.showInvoice = false;
       alert('transaksie suksesvol!');
     });

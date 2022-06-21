@@ -1,0 +1,36 @@
+<div class="all-container" #tableEl>
+  <div class="table-container" *ngIf="dataLoaded">
+    <table mat-table [dataSource]="table.data" matSort>
+      <ng-container
+        *ngFor="let column of table.displayFormat"
+        [matColumnDef]="column.columnDef"
+      >
+        <th mat-header-cell *matHeaderCellDef mat-sort-header>
+          {{ column.header }}
+        </th>
+        <td
+          mat-cell
+          *matCellDef="let row"
+          [ngClass]="column.classes ? column.classes(row) : ''"
+        >
+          {{ column.format(row) }}
+        </td>
+      </ng-container>
+
+      <tr mat-header-row *matHeaderRowDef="getHeaders(); sticky: true"></tr>
+      <tr mat-row *matRowDef="let row; columns: getHeaders()"></tr>
+
+      <tr class="mat-row" *matNoDataRow>
+        <td class="mat-cell">Geen Transaksies</td>
+      </tr>
+    </table>
+  </div>
+  <div
+    class="total-display row space-between center-vertical"
+    *ngIf="dataLoaded"
+  >
+    <span>Totaal:</span>
+    <span>{{ getTotal() | currency: "R " }}</span>
+  </div>
+  <mat-paginator showFirstLastButtons> </mat-paginator>
+</div>

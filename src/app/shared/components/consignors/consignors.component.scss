@@ -3,6 +3,18 @@
   padding: 0;
 }
 
+#sidenav {
+  // border-right: 1px solid rgb(141, 141, 141);
+  padding: 0.5rem;
+  color: white;
+  h2 {
+    text-align: center;
+  }
+  button {
+    margin: 0.5rem 0;
+  }
+}
+
 // mat-sidenav-content {
 // 	display: grid;
 // 	grid-template-columns: 1fr 10fr;
@@ -17,8 +29,10 @@
 }
 
 section {
-  margin: 0 0.5rem;
-  height: calc(100vh - 4rem);
+  display: grid;
+  grid-template-columns: 12rem auto;
+  // margin: 0 0.5rem;
+  height: calc(100vh - 3rem);
 }
 
 .chart.ng-star-inserted {

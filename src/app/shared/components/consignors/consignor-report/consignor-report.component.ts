@@ -1,3 +1,4 @@
+import { map, tap } from 'rxjs/operators';
 import { ID_Name } from './../../../models/types/Consignor';
 import { FullTransaction } from './../../../models/types/Transaction';
 import { Component, OnInit, ViewChild } from '@angular/core';
@@ -43,7 +44,7 @@ export class ConsignorReportComponent {
   visual: boolean = true;
   tableIsAvailable: boolean = false;
   chartIsAvailable: boolean = false;
-  transactionTable: TransactionTable | undefined;
+  table: Observable<TransactionTable>;
   showInvoice: boolean = false;
 
   chartData: { name: string; series: Series[] }[] | undefined;
@@ -54,8 +55,6 @@ export class ConsignorReportComponent {
       }
     | undefined;
 
-  @ViewChild(MatPaginator) paginator: MatPaginator;
-  @ViewChild(MatSort) sort: MatSort;
   @ViewChild(InvoiceComponent) invoice: InvoiceComponent;
   dateStart: Date | undefined;
   dateEnd: Date | undefined;
@@ -66,7 +65,7 @@ export class ConsignorReportComponent {
     this.setDay();
   }
 
-  setDay() {
+  setDay(): void {
     this.dateStart = new Date(
       `${
         new Date().getMonth() + 1
@@ -77,7 +76,7 @@ export class ConsignorReportComponent {
     this.getData();
   }
 
-  setWeek() {
+  setWeek(): void {
     this.dateStart = new Date().addDays(-6);
     this.dateEnd = new Date().addDays(1);
     this.dateShortcut = 'Week';
@@ -117,7 +116,6 @@ export class ConsignorReportComponent {
 
   resetData() {
     this.tableIsAvailable = false;
-    this.transactionTable = undefined;
     this.chartIsAvailable = false;
     this.chartData = undefined;
     this.invoiceData = undefined;
@@ -134,17 +132,9 @@ export class ConsignorReportComponent {
       start: this.dateStart.toISOString(),
       end: this.dateEnd.toISOString(),
     };
-
-    this.query.getTransactionsTable(body).subscribe((transactionTable) => {
-      this.transactionTable = transactionTable;
-      this.tableIsAvailable = true;
-      setTimeout(() => {
-        if (this.transactionTable) {
-          this.transactionTable.data.paginator = this.paginator;
-          this.transactionTable.data.sort = this.sort;
-        }
-      });
-    });
+    this.table = this.query.getTransactionsTable(body);
+    setTimeout(() => (this.tableIsAvailable = true), 0);
+    // this.tableIsAvailable = true;
 
     // this.query.getTransactionsForChart(body).subscribe((chart) => {
     //   this.getChartData(chart, interval);
@@ -152,11 +142,6 @@ export class ConsignorReportComponent {
     //   this.chartIsAvailable = true;
     // });
   }
-
-  getHeaders = () =>
-    this.transactionTable?.compactDisplayFormat.map(
-      ({ columnDef }) => columnDef
-    );
 
   // getChartData = (chart: TransactionRes[], interval: Interval) => {
   //   this.chartData = [];
@@ -180,11 +165,6 @@ export class ConsignorReportComponent {
   //     });
   //   });
   // };
-
-  getTotal = () =>
-    this.transactionTable?.data.data
-      .map(({ total }) => +total)
-      .reduce((acc, val) => +acc + val, 0);
 
   previewInvoice() {
     if (!this.curConsignor || !this.dateStart || !this.dateEnd) return;

@@ -1,9 +1,13 @@
+import { Consignor, ID_Name } from './../models/types/Consignor';
 import {
-  Consignor,
-  ConsignorTable,
-  ID_Name,
-} from './../models/types/Consignor';
-import {
+  ByDay,
+  ByDayTable,
+  ByMonth,
+  ByMonthTable,
+  ByWeek,
+  ByWeekTable,
+  ByYear,
+  ByYearTable,
   FullTransaction,
   TransactionTable,
 } from './../models/types/Transaction';
@@ -28,9 +32,9 @@ type SubConsignor = {
   providedIn: 'root',
 })
 export class QueryService {
-  BASE_URL = 'https://www.kontreiwinkelorania.co.za/assets/api/';
-  ALT = 'https://www.kontreiwinkelorania.co.za/api/index.php/';
-  POST_URL = 'https://www.kontreiwinkelorania.co.za/api/';
+  readonly BASE_URL = 'https://www.kontreiwinkelorania.co.za/assets/api/';
+  readonly ALT = 'https://www.kontreiwinkelorania.co.za/api/index.php/';
+  readonly POST_URL = 'https://www.kontreiwinkelorania.co.za/api/';
 
   constructor(
     private http: HttpClient,
@@ -55,13 +59,33 @@ export class QueryService {
 
   getInvoice = () => this.httpGet<number>('transaction/invoice');
 
+  getTransactionsByDay = () => this.httpGet<ByDay[]>('transaction/day');
+
+  getTransactionsByWeek = () => this.httpGet<ByWeek[]>('transaction/week');
+
+  getTransactionsByMonth = () => this.httpGet<ByMonth[]>('transaction/month');
+
+  getTransactionsByYear = () => this.httpGet<ByYear[]>('transaction/year');
+
   getTransactions = ({ id, start, end }: IDDate) =>
     this.httpGet<FullTransaction[]>(
       `transaction/subset?id=${id}&start=${start}&end=${end}`
     );
 
-  getConsignorsTable = () =>
-    this.getAllConsignors().pipe(map((rows) => new ConsignorTable(rows)));
+  getTransactionsByDayTable = () =>
+    this.getTransactionsByDay().pipe(map((rows) => new ByDayTable(rows)));
+
+  getTransactionsByWeekTable = () =>
+    this.getTransactionsByWeek().pipe(map((rows) => new ByWeekTable(rows)));
+
+  getTransactionsByMonthTable = () =>
+    this.getTransactionsByMonth().pipe(map((rows) => new ByMonthTable(rows)));
+
+  getTransactionsByYearTable = () =>
+    this.getTransactionsByYear().pipe(map((rows) => new ByYearTable(rows)));
+
+  // getConsignorsTable = () =>
+  //   this.getAllConsignors().pipe(map((rows) => new ConsignorTable(rows)));
 
   getTransactionsTable = (idDate: IDDate) =>
     this.getTransactions(idDate).pipe(

@@ -32,6 +32,8 @@ import { MatSlideToggleModule } from '@angular/material/slide-toggle';
 import { ConsignorReportComponent } from './shared/components/consignors/consignor-report/consignor-report.component';
 import { MatPaginatorModule } from '@angular/material/paginator';
 import { InvoiceComponent } from './shared/components/invoice/invoice.component';
+import { ShopStatsComponent } from './shared/components/consignors/shop-stats/shop-stats.component';
+import { TableComponent } from './shared/components/table/table.component';
 
 @NgModule({
   declarations: [
@@ -44,6 +46,8 @@ import { InvoiceComponent } from './shared/components/invoice/invoice.component'
     NewConsignorComponent,
     ConsignorReportComponent,
     InvoiceComponent,
+    ShopStatsComponent,
+    TableComponent,
   ],
   imports: [
     BrowserModule,

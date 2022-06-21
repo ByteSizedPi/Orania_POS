@@ -15,8 +15,8 @@ import { NgxChartsModule } from '@swimlane/ngx-charts';
 import { MatSidenav } from '@angular/material/sidenav';
 
 enum Category {
-  Verslae = 'Verslae',
-  Statistiek = 'Statistiek',
+  Verslae = 'Per Afsender',
+  Statistiek = 'Winkel Statistiek',
 }
 
 @Component({
@@ -37,7 +37,7 @@ export class ConsignorsComponent {
     end: new FormControl(),
   });
 
-  category: Category = Category.Verslae;
+  category: Category = Category.Statistiek;
   visual: boolean = true;
   tableIsAvailable: boolean = false;
 
@@ -58,12 +58,12 @@ export class ConsignorsComponent {
   }
 
   showCategory(nav: MatSidenav, category: Category) {
-    nav.toggle();
+    // nav.toggle();
     this.category = category;
   }
 
   getHeaders = () =>
-    this.transactions.compactDisplayFormat.map(({ columnDef }) => columnDef);
+    this.transactions.displayFormat.map(({ columnDef }) => columnDef);
 
   getTotal = () =>
     this.transactions.data.data
