@@ -1,20 +1,14 @@
 <section *ngIf="data && invoiceNr" #pdfTable>
   <h1>Orania Kontreiwinkel</h1>
   <div class="row w-100 space-between">
-    <h2>Faktuur</h2>
-    <div class="column">
-      <span>Saffierstraat-Wes</span>
-      <span>Orania</span>
-      <span>8752</span>
-    </div>
-    <div class="column">
-      <span>082 683 6317</span>
-      <span>kontreiwinkel@yahoo.com</span>
-    </div>
+    <div>Saffierstraat-Wes</div>
+    <div>Orania 8752</div>
+    <div>067 326 8281</div>
+    <div>kontreiwinkel.orania@gmail.com</div>
   </div>
   <hr />
   <div class="row w-100 space-between">
-    <h3>Aan: {{ data.name }}</h3>
+    <h3 *ngIf="data.name">Aan: {{ data.name }}</h3>
     <h3>Faktuur Nr: #{{ invoiceNr }}</h3>
   </div>
 
@@ -22,7 +16,7 @@
     <thead>
       <tr>
         <th>Nr.</th>
-        <th>Datum</th>
+        <th *ngIf="data.transactions[0].sale_timestamp">Datum</th>
         <th>Beskrywing</th>
         <th>Aantal</th>
         <th>Prys</th>
@@ -32,7 +26,9 @@
     <tbody>
       <tr *ngFor="let row of data.transactions; index as i">
         <td>{{ i + 1 }}</td>
-        <td>{{ row.sale_timestamp | date: "dd/MM/yyyy" }}</td>
+        <td *ngIf="row.sale_timestamp">
+          {{ row.sale_timestamp | date: "dd/MM/yyyy" }}
+        </td>
         <td>{{ row.item }}</td>
         <td>{{ row.amount }}</td>
         <td>{{ row.unit_price | currency: "R " }}</td>
@@ -42,7 +38,7 @@
     <tfoot>
       <tr>
         <td></td>
-        <td></td>
+        <td *ngIf="data.transactions[0].sale_timestamp"></td>
         <td></td>
         <td></td>
         <td>
@@ -56,14 +52,10 @@
   </table>
   <div class="column center">
     <h3>Bankbesonderhede</h3>
-    <div>Orania Kontreiwinkel</div>
-    <div>FNB</div>
-    <div><b>Tak: </b> 230203</div>
-    <div><b>Rek Nr.</b> 627 524 997 83</div>
-    <div>
-      E-pos asb bewys na
-      <b>kontreiwinkel@yahoo.com</b>
-    </div>
-    <h3>BAIE DANKIE VIR DIE ONDERSTEUNING!</h3>
+    <div>Orania Kontreiwinkel FNB</div>
+    <div>Tak: 230203</div>
+    <div>Rek Nr. 627 524 997 83</div>
+    <div>E-pos asb bewys na kontreiwinkel.orania@gmail.com</div>
+    <div>BAIE DANKIE VIR DIE ONDERSTEUNING!</div>
   </div>
 </section>

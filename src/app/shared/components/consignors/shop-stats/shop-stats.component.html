@@ -1,0 +1,37 @@
+<section>
+  <div class="graph-container">
+    <h2>Grafiek</h2>
+    <div class="graph"></div>
+    <div class="controls row space-around">
+      <mat-button-toggle-group name="fontStyle" aria-label="Font Style">
+        <mat-button-toggle (click)="setVal(0)">Dag</mat-button-toggle>
+        <mat-button-toggle (click)="setVal(1)"> Week </mat-button-toggle>
+        <mat-button-toggle (click)="setVal(2)">Maand</mat-button-toggle>
+        <mat-button-toggle (click)="setVal(3)">Jaar</mat-button-toggle>
+      </mat-button-toggle-group>
+      <button mat-raised-button color="primary">
+        <mat-icon>picture_as_pdf</mat-icon>
+        PDF
+      </button>
+    </div>
+  </div>
+  <div class="table" id="interval-table">
+    <h2>Data</h2>
+    <app-table
+      *ngIf="currentTable === 0"
+      [tableObservable]="query.getTransactionsByDayTable()"
+    ></app-table>
+    <app-table
+      *ngIf="currentTable === 1"
+      [tableObservable]="query.getTransactionsByWeekTable()"
+    ></app-table>
+    <app-table
+      *ngIf="currentTable === 2"
+      [tableObservable]="query.getTransactionsByMonthTable()"
+    ></app-table>
+    <app-table
+      *ngIf="currentTable === 3"
+      [tableObservable]="query.getTransactionsByYearTable()"
+    ></app-table>
+  </div>
+</section>

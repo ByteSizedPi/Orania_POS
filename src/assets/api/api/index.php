@@ -23,6 +23,10 @@ $router->get('consignor/ids', $consignor->getIDs);
 $router->get('consignor/names', $consignor->getNames);
 $router->get('transaction/invoice', $transaction->getInvoice);
 $router->get('transaction/items', $transaction->getItems);
+$router->get('transaction/day', $transaction->getAllByDay);
+$router->get('transaction/week', $transaction->getAllByWeek);
+$router->get('transaction/month', $transaction->getAllByMonth);
+$router->get('transaction/year', $transaction->getAllByYear);
 $router->get(
   'transaction/subset',
   fn () => ($transaction->getByIDDate)($params['id'], $params['start'], $params['end'])

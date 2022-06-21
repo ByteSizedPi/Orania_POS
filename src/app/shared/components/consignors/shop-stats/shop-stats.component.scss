@@ -1,0 +1,42 @@
+section {
+  display: grid;
+  box-sizing: border-box;
+  padding: 0.5rem;
+  grid-template-columns: auto 35rem;
+  height: calc(100vh - 3.5rem);
+  gap: 0.5rem;
+}
+
+h2 {
+  margin: 0;
+  text-align: center;
+}
+
+.table {
+  display: grid;
+  gap: 0.5rem;
+  grid-template-rows: 3rem calc(100vh - 7.5rem);
+  box-sizing: border-box;
+  height: 100%;
+  color: white;
+}
+
+.graph-container {
+  display: grid;
+  gap: 0.5rem;
+  grid-template-rows: 3rem auto 3.5rem;
+  color: white;
+}
+
+.graph,
+.controls {
+  box-sizing: border-box;
+  width: 100%;
+  border-radius: 8px;
+  background-color: var(--bg-light);
+  padding: 0.5rem;
+}
+
+#interval-table {
+  transition: opacity 0.1s;
+}

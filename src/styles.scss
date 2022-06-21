@@ -165,17 +165,22 @@ div.mat-tab-label {
   color: white;
 }
 
-.mat-form-field-wrapper {
-  padding-bottom: 0;
-}
+// .mat-form-field-wrapper {
+//   padding-bottom: 0;
+// }
+//
+// .mat-table {
+// border: 2px solid var(--light);
+// background-color: var(--light);
+// }
 
-.mat-table {
-  // border: 2px solid var(--light);
-  background-color: var(--light);
+table {
+  border-radius: 8px;
+  // overflow: hidden;
 }
 
 table th.mat-header-cell {
-  border-bottom: 2px solid var(--bg);
+  // border-bottom: 2px solid var(--bg);
   background-color: var(--light);
 }
 
@@ -185,8 +190,12 @@ table td.mat-footer-cell {
   background-color: var(--light);
 }
 
+.mat-date-range-input-inner {
+  color: white;
+}
+
 tbody tr {
-  background: var(--bg) !important;
+  background: var(--bg);
 }
 
 .mat-drawer-backdrop.mat-drawer-shown {
@@ -200,6 +209,10 @@ tbody tr {
 .ngx-charts,
 text {
   fill: #e0e0e0;
+}
+
+mat-sidenav {
+  background-color: var(--bg);
 }
 
 @keyframes fade-in {

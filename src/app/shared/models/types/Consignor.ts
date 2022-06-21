@@ -1,5 +1,5 @@
 import { dateToString } from './Date';
-import { Table, TABLESTRING } from './Types';
+import { Table } from './Types';
 
 export interface Consignor {
   consignor_id: string;
@@ -13,33 +13,16 @@ export type ID_Name = {
   name_surname: string;
 };
 
-export class ConsignorTable extends Table<Consignor> {
-  constructor(data: Consignor[]) {
-    super(
-      TABLESTRING.CONSIGNOR,
-      [
-        {
-          columnDef: 'consignor_id',
-          header: 'Afsender Kode',
-          cell: (el: Consignor) => `${el.consignor_id}`,
-        },
-        {
-          columnDef: 'name_surname',
-          header: 'Naam',
-          cell: (el: Consignor) => `${el.name_surname}`,
-        },
-        {
-          columnDef: 'registered_date',
-          header: 'Registrasie Datum',
-          cell: (el: Consignor) => el.registered_date,
-        },
-        {
-          columnDef: 'cell_nr',
-          header: 'Selfoon Nommer',
-          cell: (el: Consignor) => `${el.cell_nr}`,
-        },
-      ],
-      data
-    );
-  }
-}
+// export class ConsignorTable extends Table<Consignor> {
+//   constructor(data: Consignor[]) {
+//     super(
+//       [
+//         ['Afsender Kode', 'consignor_id'],
+//         ['Naam', 'name_surname'],
+//         ['Registrasie Datum', 'registered_date'],
+//         ['Selfoon Nommer', 'cell_nr'],
+//       ],
+//       data
+//     );
+//   }
+// }

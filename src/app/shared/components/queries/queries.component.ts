@@ -1,12 +1,12 @@
 import { MatTableDataSource } from '@angular/material/table';
 import {
+  FullTransaction,
   TransactionTable,
-  Transaction,
 } from './../../models/types/Transaction';
-import { ConsignorTable, Consignor } from './../../models/types/Consignor';
+import { Consignor } from './../../models/types/Consignor';
 import { QueryService } from './../../services/query.service';
 import { Component, OnInit } from '@angular/core';
-import { Data, Table, TableData, TABLESTRING } from '../../models/types/Types';
+import { Table } from '../../models/types/Types';
 
 @Component({
   selector: 'app-queries',
@@ -15,25 +15,25 @@ import { Data, Table, TableData, TABLESTRING } from '../../models/types/Types';
 })
 export class QueriesComponent implements OnInit {
   table: any;
-  tbl = TABLESTRING;
+  // tbl = TABLESTRING;
 
   constructor(private query: QueryService) {}
 
   ngOnInit(): void {
-    this.setDataSource(TABLESTRING.TRANSACTION);
+    // this.setDataSource(TABLESTRING.TRANSACTION);
   }
 
-  setDataSource = (t: TABLESTRING) => {
-    // if (t === TABLESTRING.CONSIGNOR) {
-    // 	this.query
-    // 		.getConsignorsTable()
-    // 		.subscribe((table) => (this.table = table));
-    // } else {
-    // 	this.query
-    // 		.getAllTransactionsTable()
-    // 		.subscribe((table) => (this.table = table));
-    // }
-  };
+  // setDataSource = (t: TABLESTRING) => {
+  //   // if (t === TABLESTRING.CONSIGNOR) {
+  //   // 	this.query
+  //   // 		.getConsignorsTable()
+  //   // 		.subscribe((table) => (this.table = table));
+  //   // } else {
+  //   // 	this.query
+  //   // 		.getAllTransactionsTable()
+  //   // 		.subscribe((table) => (this.table = table));
+  //   // }
+  // };
   getHeaders = () =>
     this.table.displayFormat.map(
       ({ columnDef }: { columnDef: any }) => columnDef

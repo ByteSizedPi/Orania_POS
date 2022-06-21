@@ -1,8 +1,6 @@
+import { map, tap } from 'rxjs/operators';
 import { ID_Name } from './../../../models/types/Consignor';
-import {
-  Transaction,
-  TransactionRes,
-} from './../../../models/types/Transaction';
+import { FullTransaction } from './../../../models/types/Transaction';
 import { Component, OnInit, ViewChild } from '@angular/core';
 import { FormControl, FormGroup } from '@angular/forms';
 import { MatSidenav } from '@angular/material/sidenav';
@@ -46,19 +44,17 @@ export class ConsignorReportComponent {
   visual: boolean = true;
   tableIsAvailable: boolean = false;
   chartIsAvailable: boolean = false;
-  transactionTable: TransactionTable | undefined;
+  table: Observable<TransactionTable>;
   showInvoice: boolean = false;
 
   chartData: { name: string; series: Series[] }[] | undefined;
   invoiceData:
     | {
-        transactions: Transaction[];
+        transactions: FullTransaction[];
         name: string;
       }
     | undefined;
 
-  @ViewChild(MatPaginator) paginator: MatPaginator;
-  @ViewChild(MatSort) sort: MatSort;
   @ViewChild(InvoiceComponent) invoice: InvoiceComponent;
   dateStart: Date | undefined;
   dateEnd: Date | undefined;
@@ -69,7 +65,7 @@ export class ConsignorReportComponent {
     this.setDay();
   }
 
-  setDay() {
+  setDay(): void {
     this.dateStart = new Date(
       `${
         new Date().getMonth() + 1
@@ -80,7 +76,7 @@ export class ConsignorReportComponent {
     this.getData();
   }
 
-  setWeek() {
+  setWeek(): void {
     this.dateStart = new Date().addDays(-6);
     this.dateEnd = new Date().addDays(1);
     this.dateShortcut = 'Week';
@@ -120,7 +116,6 @@ export class ConsignorReportComponent {
 
   resetData() {
     this.tableIsAvailable = false;
-    this.transactionTable = undefined;
     this.chartIsAvailable = false;
     this.chartData = undefined;
     this.invoiceData = undefined;
@@ -137,17 +132,9 @@ export class ConsignorReportComponent {
       start: this.dateStart.toISOString(),
       end: this.dateEnd.toISOString(),
     };
-
-    this.query.getTransactionsTable(body).subscribe((transactionTable) => {
-      this.transactionTable = transactionTable;
-      this.tableIsAvailable = true;
-      setTimeout(() => {
-        if (this.transactionTable) {
-          this.transactionTable.data.paginator = this.paginator;
-          this.transactionTable.data.sort = this.sort;
-        }
-      });
-    });
+    this.table = this.query.getTransactionsTable(body);
+    setTimeout(() => (this.tableIsAvailable = true), 0);
+    // this.tableIsAvailable = true;
 
     // this.query.getTransactionsForChart(body).subscribe((chart) => {
     //   this.getChartData(chart, interval);
@@ -156,38 +143,28 @@ export class ConsignorReportComponent {
     // });
   }
 
-  getHeaders = () =>
-    this.transactionTable?.compactDisplayFormat.map(
-      ({ columnDef }) => columnDef
-    );
+  // getChartData = (chart: TransactionRes[], interval: Interval) => {
+  //   this.chartData = [];
+  //   if (!this.dateEnd || !this.dateStart || !chart[0]) return;
 
-  getChartData = (chart: TransactionRes[], interval: Interval) => {
-    this.chartData = [];
-    if (!this.dateEnd || !this.dateStart || !chart[0]) return;
+  //   let iterChart = chart[Symbol.iterator]();
+  //   let curItem = iterChart.next().value;
 
-    let iterChart = chart[Symbol.iterator]();
-    let curItem = iterChart.next().value;
+  //   loopDays(this.dateStart, this.dateEnd, (date: Date) => {
+  //     let series: Series[] = [];
+  //     const valid = () =>
+  //       curItem && new Date(curItem.sale_timestamp).isSameDay(date);
 
-    loopDays(this.dateStart, this.dateEnd, (date: Date) => {
-      let series: Series[] = [];
-      const valid = () =>
-        curItem && new Date(curItem.sale_timestamp).isSameDay(date);
-
-      while (valid()) {
-        series.push({ name: curItem.item, value: +curItem.total });
-        curItem = iterChart.next().value;
-      }
-      this.chartData?.push({
-        name: `${date.toLocaleDateString('en-za')}`,
-        series: series,
-      });
-    });
-  };
-
-  getTotal = () =>
-    this.transactionTable?.data.data
-      .map(({ total }) => +total)
-      .reduce((acc, val) => +acc + val, 0);
+  //     while (valid()) {
+  //       series.push({ name: curItem.item, value: +curItem.total });
+  //       curItem = iterChart.next().value;
+  //     }
+  //     this.chartData?.push({
+  //       name: `${date.toLocaleDateString('en-za')}`,
+  //       series: series,
+  //     });
+  //   });
+  // };
 
   previewInvoice() {
     if (!this.curConsignor || !this.dateStart || !this.dateEnd) return;

@@ -37,7 +37,7 @@ class Router
 
   private function errorMethod()
   {
-    header('Content-Type: application/json');
+    // header('Content-Type: application/json');
     header('HTTP/1.1 422 Unprocessable Entity');
     echo json_encode(array('error' => 'Method not supported'));
     exit;
