@@ -160,9 +160,15 @@ div.mat-tab-label {
   color: var(--light);
 }
 
-.mat-raised-button.mat-accent {
-  background-color: var(--secondary-light);
-  color: white;
+.mat-raised-button.mat-accent,
+.mat-flat-button.mat-accent {
+  background-color: var(--light);
+  // color: white;
+}
+
+.mat-raised-button.mat-warn,
+.mat-flat-button.mat-warn {
+  background-color: var(--red);
 }
 
 // .mat-form-field-wrapper {
@@ -213,6 +219,19 @@ text {
 
 mat-sidenav {
   background-color: var(--bg);
+}
+
+mat-card {
+  margin: 0.5rem;
+}
+
+mat-card-title-group {
+  width: fit-content;
+  margin-bottom: 1rem;
+  font-size: 1.1rem;
+  &:not(:first-of-type) {
+    margin-top: 2rem;
+  }
 }
 
 @keyframes fade-in {

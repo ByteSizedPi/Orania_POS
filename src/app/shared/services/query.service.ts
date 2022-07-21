@@ -12,12 +12,17 @@ import {
   TransactionTable,
 } from './../models/types/Transaction';
 import { TransactionService } from './transaction.service';
-import { map } from 'rxjs/operators';
+import { map, tap } from 'rxjs/operators';
 import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 
 type IDDate = {
   id: string;
+  start: string;
+  end: string;
+};
+
+type Date = {
   start: string;
   end: string;
 };
@@ -67,7 +72,12 @@ export class QueryService {
 
   getTransactionsByYear = () => this.httpGet<ByYear[]>('transaction/year');
 
-  getTransactions = ({ id, start, end }: IDDate) =>
+  getTransactionsByDate = ({ start, end }: Date) =>
+    this.httpGet<FullTransaction[]>(
+      `transaction/range?start=${start}&end=${end}`
+    );
+
+  getTransactionsByIDDate = ({ id, start, end }: IDDate) =>
     this.httpGet<FullTransaction[]>(
       `transaction/subset?id=${id}&start=${start}&end=${end}`
     );
@@ -87,12 +97,20 @@ export class QueryService {
   // getConsignorsTable = () =>
   //   this.getAllConsignors().pipe(map((rows) => new ConsignorTable(rows)));
 
-  getTransactionsTable = (idDate: IDDate) =>
-    this.getTransactions(idDate).pipe(
+  getTransactionsByDateTable = (date: Date) =>
+    this.getTransactionsByDate(date).pipe(
       map((rows) => new TransactionTable(rows))
     );
 
-  updateInvoice = () => this.httpPut('PUT_invoice.php');
+  getTransactionsByIDDateTable = (idDate: IDDate) =>
+    this.getTransactionsByIDDate(idDate).pipe(
+      map((rows) => new TransactionTable(rows))
+    );
+
+  updateInvoice = () =>
+    this.httpPut('PUT_invoice.php').pipe(
+      tap((_) => console.log('made update'))
+    );
 
   postTransaction = () =>
     this.httpPost('POST_transaction.php', this.transaction.getList());

@@ -1,3 +1,4 @@
+import { Invoice } from './../../models/types/Types';
 import { TransactionService } from '../../services/transaction.service';
 import { TransactionEventService } from './confirm-transaction/transaction-modal.service';
 import { QueryService } from './../../services/query.service';
@@ -11,7 +12,7 @@ import {
   ValidatorFn,
   Validators,
 } from '@angular/forms';
-import { Observable } from 'rxjs';
+import { from, Observable, of } from 'rxjs';
 import {
   concatMap,
   filter,
@@ -39,8 +40,11 @@ export class TransactionComponent implements OnInit, AfterViewInit {
   priceControl = new FormControl('', Validators.required);
   list: Item[] = [];
 
-  codeOptions: Observable<string[]>;
-  itemOptions: Observable<string[]>;
+  codeOptions: string[];
+  itemOptions: string[];
+  amountOptions: number[] = [
+    1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20,
+  ];
 
   filteredCodes: Observable<string[]>;
   filteredItems: Observable<string[]>;
@@ -55,7 +59,7 @@ export class TransactionComponent implements OnInit, AfterViewInit {
   }));
 
   @ViewChild(InvoiceComponent) invoice: InvoiceComponent;
-  invoiceData: { transactions: Item[] } | undefined;
+  invoiceData: Invoice;
 
   showInvoice: boolean = false;
   displayedColumns = ['number', 'code', 'item', 'amount', 'price', 'total'];
@@ -65,8 +69,30 @@ export class TransactionComponent implements OnInit, AfterViewInit {
     private modal: TransactionEventService,
     public transaction: TransactionService
   ) {
-    this.itemOptions = this.queryService.getAllItems();
-    this.codeOptions = this.queryService.getIDs();
+    const filterValues = (array: string[], value: string) =>
+      array.filter((str) =>
+        str.toLowerCase().includes((value || '').toLowerCase())
+      );
+
+    this.queryService.getIDs().subscribe((ids) => {
+      this.codeOptions = ids;
+      this.filteredCodes = this.codeControl.valueChanges.pipe(
+        startWith(''),
+        // map((value) => filterValues(ids, value))
+        map((value) => ids)
+      );
+    });
+
+    this.queryService.getAllItems().subscribe((ids) => {
+      this.itemOptions = ids;
+      this.filteredItems = this.itemControl.valueChanges.pipe(
+        startWith(''),
+        // map((value) => filterValues(ids, value))
+        map((value) => ids)
+      );
+    });
+
+    // this.codeOptions = this.queryService.getIDs();
 
     // this.queryService.getCodes().subscribe((res) => {
     // let codeValidator = (control: AbstractControl) =>
@@ -76,33 +102,29 @@ export class TransactionComponent implements OnInit, AfterViewInit {
 
     // this.codeControl = new FormControl(null, codeValidator);
 
-    const filterValues = (array: string[], value: string) =>
-      array.filter((str) =>
-        str.toLowerCase().includes((value || '').toLowerCase())
-      );
+    // this.filteredCodes = this.codeControl.valueChanges.pipe(
+    //   switchMap((value) =>
+    //     this.codeOptions.pipe(map((options) => filterValues(options, value)))
+    //   )
+    // );
 
-    this.filteredCodes = this.codeControl.valueChanges.pipe(
-      switchMap((value) =>
-        this.codeOptions.pipe(map((options) => filterValues(options, value)))
-      )
-    );
-
-    this.filteredItems = this.itemControl.valueChanges.pipe(
-      switchMap((value) =>
-        this.itemOptions.pipe(map((options) => filterValues(options, value)))
-      )
-    );
+    // this.filteredItems = this.itemControl.valueChanges.pipe(
+    //   switchMap((value) =>
+    //     this.itemOptions.pipe(map((options) => filterValues(options, value)))
+    //   )
+    // );
   }
 
-  clearThenTabTo(index: number, trigger: MatAutocompleteTrigger) {
+  clearThenTabTo(index: number, trigger?: MatAutocompleteTrigger) {
     this.inputArr[index].value = '';
-    setTimeout(() => this.tabTo(index, trigger), 0);
+    this.tabTo(index, trigger);
+    // setTimeout(() => this.tabTo(index, trigger), 0);
   }
 
   optionSelected(
     index: number,
     value: string,
-    trigger: MatAutocompleteTrigger
+    trigger?: MatAutocompleteTrigger
   ) {
     this.inputArr[index].tempValue = this.inputArr[index].value = value;
     this.tabTo(index + 1, trigger);
@@ -174,12 +196,8 @@ export class TransactionComponent implements OnInit, AfterViewInit {
   }
 
   previewInvoice() {
-    this.invoiceData = { transactions: this.list };
+    this.invoiceData = { transactions: this.list, details: true };
     this.showInvoice = true;
-  }
-
-  printInvoice() {
-    this.invoice.downloadAsPDF();
   }
 
   complete() {

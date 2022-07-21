@@ -1,10 +1,8 @@
 section {
   display: grid;
   box-sizing: border-box;
-  padding: 0.5rem;
   grid-template-columns: auto 35rem;
-  height: calc(100vh - 3.5rem);
-  gap: 0.5rem;
+  height: 100%;
 }
 
 h2 {
@@ -12,19 +10,23 @@ h2 {
   text-align: center;
 }
 
+button {
+  margin: 0.5rem 0.1rem;
+}
+
 .table {
   display: grid;
-  gap: 0.5rem;
+  // gap: 0.5rem;
   grid-template-rows: 3rem calc(100vh - 7.5rem);
   box-sizing: border-box;
-  height: 100%;
+  max-height: calc(100% - 2.5rem);
   color: white;
 }
 
 .graph-container {
-  display: grid;
-  gap: 0.5rem;
-  grid-template-rows: 3rem auto 3.5rem;
+  // display: grid;
+  // gap: 0.5rem;
+  // grid-template-rows: 3rem auto 3.5rem;
   color: white;
 }
 
@@ -34,7 +36,7 @@ h2 {
   width: 100%;
   border-radius: 8px;
   background-color: var(--bg-light);
-  padding: 0.5rem;
+  // padding: 0.5rem;
 }
 
 #interval-table {

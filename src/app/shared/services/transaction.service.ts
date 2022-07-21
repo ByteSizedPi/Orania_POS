@@ -2,49 +2,23 @@ import { Item } from '../models/types/Transaction';
 import { EventEmitter, Injectable } from '@angular/core';
 
 @Injectable({
-	providedIn: 'root',
+  providedIn: 'root',
 })
 export class TransactionService {
-	private curList: Item[] = [];
-	// 	{ amount: 6, item: 'koekies', seller_id: '002', unit_price: 6 },
-	// 	{ amount: 6, item: 'koekies', seller_id: '002', unit_price: 6 },
-	// 	{ amount: 6, item: 'koekies', seller_id: '002', unit_price: 6 },
-	// 	{ amount: 6, item: 'koekies', seller_id: '002', unit_price: 6 },
-	// 	{ amount: 6, item: 'koekies', seller_id: '002', unit_price: 6 },
-	// 	{ amount: 6, item: 'koekies', seller_id: '002', unit_price: 6 },
-	// 	{ amount: 6, item: 'koekies', seller_id: '002', unit_price: 6 },
-	// 	{ amount: 6, item: 'koekies', seller_id: '002', unit_price: 6 },
-	// 	{ amount: 6, item: 'koekies', seller_id: '002', unit_price: 6 },
-	// 	{ amount: 6, item: 'koekies', seller_id: '002', unit_price: 6 },
-	// 	{ amount: 6, item: 'koekies', seller_id: '002', unit_price: 6 },
-	// 	{ amount: 6, item: 'koekies', seller_id: '002', unit_price: 6 },
-	// 	{ amount: 6, item: 'koekies', seller_id: '002', unit_price: 6 },
-	// 	{ amount: 6, item: 'koekies', seller_id: '002', unit_price: 6 },
-	// 	{ amount: 6, item: 'koekies', seller_id: '002', unit_price: 6 },
-	// 	{ amount: 6, item: 'koekies', seller_id: '002', unit_price: 6 },
-	// 	{ amount: 6, item: 'koekies', seller_id: '002', unit_price: 6 },
-	// 	{ amount: 6, item: 'koekies', seller_id: '002', unit_price: 6 },
-	// 	{ amount: 6, item: 'koekies', seller_id: '002', unit_price: 6 },
-	// 	{ amount: 6, item: 'koekies', seller_id: '002', unit_price: 6 },
-	// 	{ amount: 6, item: 'koekies', seller_id: '002', unit_price: 6 },
-	// 	{ amount: 6, item: 'koekies', seller_id: '002', unit_price: 6 },
-	// 	{ amount: 6, item: 'koekies', seller_id: '002', unit_price: 6 },
-	// 	{ amount: 6, item: 'koekies', seller_id: '002', unit_price: 6 },
-	// 	{ amount: 6, item: 'koekies', seller_id: '002', unit_price: 6 },
-	// ];
+  private curList: Item[] = [];
 
-	completeTransaction: EventEmitter<boolean> = new EventEmitter();
+  completeTransaction: EventEmitter<boolean> = new EventEmitter();
 
-	constructor() {}
+  constructor() {}
 
-	pushItem = (item: Item) => this.curList.push(item);
+  pushItem = (item: Item) => this.curList.push(item);
 
-	popItem = (index: number) => this.curList.splice(index, 1);
+  popItem = (index: number) => this.curList.splice(index, 1);
 
-	setList = (list: Item[]) => (this.curList = list);
+  setList = (list: Item[]) => (this.curList = list);
 
-	getList = () => this.curList;
+  getList = () => this.curList;
 
-	getTotal = () =>
-		this.curList.reduce((acc, item) => acc + item.unit_price * item.amount, 0);
+  getTotal = () =>
+    this.curList.reduce((acc, item) => acc + item.unit_price * item.amount, 0);
 }

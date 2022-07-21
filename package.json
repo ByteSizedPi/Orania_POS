@@ -36,6 +36,7 @@
     "@types/d3-scale": "^4.0.2",
     "@types/html-to-pdfmake": "^2.1.0",
     "@types/jasmine": "~3.8.0",
+    "@types/lodash": "^4.14.182",
     "@types/node": "^12.11.1",
     "@types/pdfmake": "^0.1.21",
     "jasmine-core": "~3.8.0",
@@ -44,6 +45,7 @@
     "karma-coverage": "~2.0.3",
     "karma-jasmine": "~4.0.0",
     "karma-jasmine-html-reporter": "~1.7.0",
+    "lodash": "^4.17.21",
     "typescript": "~4.3.5"
   }
 }

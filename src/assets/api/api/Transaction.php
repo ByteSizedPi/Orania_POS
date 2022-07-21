@@ -3,7 +3,7 @@ require_once __DIR__ . "/Controller.php";
 
 class Transaction extends Controller
 {
-  public $getAll, $getItems, $getByIDDate, $getInvoice, $getAllByDay, $getAllByWeek, $getAllByMonth, $getAllByYear, $updateInvoice;
+  public $getAll, $getItems, $getByDate, $getByIDDate, $getInvoice, $getAllByDay, $getAllByWeek, $getAllByMonth, $getAllByYear, $updateInvoice;
   public function init()
   {
     $this->getAll = function () {
@@ -60,6 +60,13 @@ class Transaction extends Controller
         "SELECT DISTINCT item FROM transaction",
         fn ($items) => array_map(fn ($val) => $val['item'], $items)
       );
+    };
+
+    $this->getByDate = function ($start, $end) {
+      $this->query("SELECT *, amount * unit_price AS total
+								  FROM transaction
+								  WHERE (sale_timestamp >= '$start') AND
+											  (sale_timestamp <= '$end')");
     };
 
     $this->getByIDDate = function ($id, $start, $end) {

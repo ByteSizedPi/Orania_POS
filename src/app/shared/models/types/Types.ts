@@ -1,7 +1,15 @@
 import { MatTableDataSource } from '@angular/material/table';
+import { FullTransaction } from './Transaction';
 import { toCurrency } from './Utils';
 
 export type Total = { total: number };
+export type Invoice =
+  | {
+      transactions: FullTransaction[];
+      name?: string;
+      details?: boolean;
+    }
+  | undefined;
 
 //Column header and formatter
 export interface Column<Type> {
@@ -64,3 +72,8 @@ export const unitPrice = <
   toCurrency,
   ({ unit_price }: { unit_price: number }) => colorNums(unit_price),
 ];
+
+//other useful types
+export class User {
+  constructor(public username: string, public password: string) {}
+}

@@ -1,35 +1,4 @@
 <section class="container center-horizontal">
-  <div class="modal" *ngIf="invoiceData && showInvoice">
-    <div class="invoice-controls">
-      <button
-        type="button"
-        mat-raised-button
-        color="warn"
-        (click)="showInvoice = false"
-      >
-        <mat-icon>keyboard_arrow_left</mat-icon>Terug
-      </button>
-      <button
-        type="button"
-        mat-raised-button
-        color="accent"
-        (click)="printInvoice()"
-      >
-        <mat-icon>picture_as_pdf</mat-icon>
-        Druk PDF
-      </button>
-      <button
-        type="button"
-        mat-raised-button
-        color="accent"
-        (click)="complete()"
-      >
-        <mat-icon>done</mat-icon>
-        Voltooi Transaksie
-      </button>
-    </div>
-    <app-invoice [data]="invoiceData"></app-invoice>
-  </div>
   <div>
     <form autocomplete="off" class="row">
       <mat-form-field appearance="outline" id="kode" floatLabel="always">
@@ -68,10 +37,7 @@
             optionSelected(0, $event.option?.value, itemTrigger)
           "
         >
-          <mat-option
-            *ngFor="let option of filteredCodes | async"
-            [value]="option"
-          >
+          <mat-option *ngFor="let option of codeOptions" [value]="option">
             {{ option }}
           </mat-option>
         </mat-autocomplete>
@@ -95,40 +61,57 @@
           matSuffix
           mat-icon-button
           aria-label="Clear"
-          (click)="clearThenTabTo(1, codeTrigger)"
+          (click)="clearThenTabTo(1, itemTrigger)"
           tabindex="-1"
         >
-          <mat-icon (click)="tabTo(1, itemTrigger)">close</mat-icon>
+          <mat-icon>close</mat-icon>
         </button>
         <mat-autocomplete
           #itemAuto="matAutocomplete"
           (optionActivated)="inputArr[1].tempValue = $event.option?.value"
           (closed)="onClose(1)"
           (optionSelected)="
-            optionSelected(1, $event.option?.value, itemTrigger)
+            optionSelected(1, $event.option?.value, amountTrigger)
           "
         >
-          <mat-option
-            *ngFor="let option of filteredItems | async"
-            [value]="option"
-          >
+          <mat-option *ngFor="let option of itemOptions" [value]="option">
             {{ option }}
           </mat-option>
         </mat-autocomplete>
       </mat-form-field>
 
       <mat-form-field appearance="outline" id="amount" floatLabel="always">
-        <mat-label>Hoeveel</mat-label>
+        <mat-label>Aantal</mat-label>
         <input
           id="amount-input"
           type="number"
-          min="1"
-          aria-label="Hoeveelheid"
           matInput
           spellcheck="false"
           [formControl]="amountControl"
+          [matAutocomplete]="amountAuto"
           [(ngModel)]="inputArr[2].value"
+          #amountTrigger="matAutocompleteTrigger"
         />
+        <button
+          *ngIf="inputArr[2].value"
+          matSuffix
+          mat-icon-button
+          aria-label="Clear"
+          (click)="clearThenTabTo(2, amountTrigger)"
+          tabindex="-1"
+        >
+          <mat-icon>close</mat-icon>
+        </button>
+        <mat-autocomplete
+          #amountAuto="matAutocomplete"
+          (optionActivated)="inputArr[2].tempValue = $event.option?.value"
+          (closed)="onClose(2)"
+          (optionSelected)="optionSelected(2, $event.option?.value)"
+        >
+          <mat-option *ngFor="let option of amountOptions" [value]="option">
+            {{ option }}
+          </mat-option>
+        </mat-autocomplete>
       </mat-form-field>
 
       <mat-form-field appearance="outline" id="price" floatLabel="always">
@@ -221,12 +204,22 @@
         <ng-container matColumnDef="complete-transaction">
           <td mat-footer-cell *matFooterCellDef colspan="4">
             <button
-              mat-raised-button
-              color="accent"
+              mat-flat-button
+              color="warn"
               (click)="previewInvoice()"
               [disabled]="list.length === 0"
             >
-              Hersien Transaksie
+              <mat-icon>picture_as_pdf</mat-icon>
+              Faktuur
+            </button>
+            <!-- color="accent" -->
+            <button
+              mat-flat-button
+              (click)="complete()"
+              [disabled]="list.length === 0"
+            >
+              <mat-icon>done</mat-icon>
+              Voltooi Transaksie
             </button>
           </td>
         </ng-container>
@@ -258,3 +251,8 @@
     </div>
   </div>
 </section>
+<app-invoice
+  (closed)="showInvoice = false"
+  *ngIf="invoiceData && showInvoice"
+  [data]="invoiceData"
+></app-invoice>

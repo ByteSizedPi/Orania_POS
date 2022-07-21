@@ -25,12 +25,18 @@
       </tr>
     </table>
   </div>
-  <div
-    class="total-display row space-between center-vertical"
-    *ngIf="dataLoaded"
-  >
-    <span>Totaal:</span>
-    <span>{{ getTotal() | currency: "R " }}</span>
+  <div class="total-display column center">
+    <div class="row" *ngIf="dataLoaded">
+      <span>Totaal:</span>
+      <span>Komissie (25%):</span>
+      <span>Uitbetaling:</span>
+    </div>
+
+    <div class="row" *ngIf="dataLoaded">
+      <span>{{ getTotal() | currency: "R " }}</span>
+      <span>{{ getTotal() * 0.25 | currency: "R " }}</span>
+      <span>{{ getTotal() * 0.75 | currency: "R " }}</span>
+    </div>
   </div>
   <mat-paginator showFirstLastButtons> </mat-paginator>
 </div>

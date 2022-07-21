@@ -1,30 +1,8 @@
 <section>
-  <div class="modal" *ngIf="invoiceData && showInvoice">
-    <div class="invoice-controls">
-      <button
-        type="button"
-        mat-raised-button
-        color="warn"
-        (click)="showInvoice = false"
-      >
-        <mat-icon>keyboard_arrow_left</mat-icon>Terug
-      </button>
-      <button
-        type="button"
-        mat-raised-button
-        color="accent"
-        (click)="printInvoice()"
-      >
-        <mat-icon>picture_as_pdf</mat-icon>
-        Druk PDF
-      </button>
-    </div>
-    <app-invoice [data]="invoiceData"></app-invoice>
-  </div>
-
-  <div class="controls-container column center-horizontal">
-    <h2>Afsender</h2>
-    <div id="controls" class="column center-horizontal controls">
+  <!-- <div class="column center-horizontal"> -->
+  <mat-card id="controls" class="column center-horizontal controls">
+    <mat-card-title-group>Afsender</mat-card-title-group>
+    <mat-card-content>
       <mat-form-field appearance="outline">
         <mat-label>Afsender</mat-label>
         <mat-select (valueChange)="setConsignor($event)">
@@ -80,36 +58,39 @@
           <button mat-menu-item (click)="setMonth()">Maand</button>
           <button mat-menu-item (click)="setYear()">Jaar</button>
         </mat-menu>
+        <!-- <button
+            id="view-toggle"
+            mat-raised-button
+            [color]="this.visual ? 'warn' : 'accent'"
+            (click)="toggleVisual()"
+            disabled
+          >
+            {{ this.visual ? "Data" : "Grafiek" }}
+          </button> -->
         <button
-          id="view-toggle"
+          color="warn"
           mat-raised-button
-          [color]="this.visual ? 'warn' : 'accent'"
-          (click)="toggleVisual()"
-          disabled
+          class="w-100"
+          [disabled]="!tableIsAvailable"
+          (click)="previewInvoice()"
         >
-          {{ this.visual ? "Data" : "Grafiek" }}
+          <mat-icon>picture_as_pdf</mat-icon>
+          PDF
         </button>
       </div>
-      <button
-        color="accent"
-        mat-raised-button
-        class="w-100"
-        [disabled]="!tableIsAvailable && !chartData"
-        (click)="previewInvoice()"
-      >
-        <mat-icon>picture_as_pdf</mat-icon>
-        PDF
-      </button>
-    </div>
-  </div>
+    </mat-card-content>
+  </mat-card>
+  <!-- </div> -->
 
-  <div>
-    <h3>
+  <mat-card>
+    <mat-card-title-group>
       Transaksies vanaf:
-      <b>{{ dateStart | date: "dd/MM/yyyy" }}</b>
-      -
-      <b>{{ dateEnd | date: "dd/MM/yyyy" }}</b>
-    </h3>
+      <span>
+        {{ dateStart | date: "dd/MM/yyyy" }}
+        -
+        {{ dateEnd | date: "dd/MM/yyyy" }}
+      </span>
+    </mat-card-title-group>
     <div class="table-container" *ngIf="visual && tableIsAvailable">
       <app-table [tableObservable]="table"></app-table>
     </div>
@@ -131,5 +112,11 @@
       >
       </ngx-charts-bar-vertical-stacked>
     </div>
-  </div>
+  </mat-card>
 </section>
+
+<app-invoice
+  (closed)="showInvoice = false"
+  *ngIf="invoiceData && showInvoice"
+  [data]="invoiceData"
+></app-invoice>

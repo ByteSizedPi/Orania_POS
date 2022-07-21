@@ -1,61 +1,80 @@
-<section *ngIf="data && invoiceNr" #pdfTable>
-  <h1>Orania Kontreiwinkel</h1>
-  <div class="row w-100 space-between">
-    <div>Saffierstraat-Wes</div>
-    <div>Orania 8752</div>
-    <div>067 326 8281</div>
-    <div>kontreiwinkel.orania@gmail.com</div>
+<div class="modal center-horizontal">
+  <div class="button-container space-between">
+    <button type="button" mat-raised-button color="warn" (click)="close()">
+      <mat-icon>keyboard_arrow_left</mat-icon>Terug
+    </button>
+    <button
+      type="button"
+      mat-raised-button
+      color="warn"
+      (click)="downloadAsPDF()"
+    >
+      <mat-icon>picture_as_pdf</mat-icon>
+      Druk PDF
+    </button>
   </div>
-  <hr />
-  <div class="row w-100 space-between">
-    <h3 *ngIf="data.name">Aan: {{ data.name }}</h3>
-    <h3>Faktuur Nr: #{{ invoiceNr }}</h3>
-  </div>
+  <section *ngIf="data && invoiceNr" #pdfTable>
+    <div *ngIf="data.details">
+      <h1>Orania Kontreiwinkel</h1>
+      <div class="row w-100 space-between">
+        <div>Saffierstraat-Wes</div>
+        <div>Orania 8752</div>
+        <div>067 326 8281</div>
+        <div>kontreiwinkel.orania@gmail.com</div>
+      </div>
+      <hr />
+      <div class="row w-100 space-between">
+        <h3 *ngIf="data.name">Aan: {{ data.name }}</h3>
+        <h3 *ngIf="!data.name">Aan: _____________</h3>
+        <h3>Faktuur Nr: #{{ invoiceNr }}</h3>
+      </div>
+    </div>
 
-  <table cellspacing="0">
-    <thead>
-      <tr>
-        <th>Nr.</th>
-        <th *ngIf="data.transactions[0].sale_timestamp">Datum</th>
-        <th>Beskrywing</th>
-        <th>Aantal</th>
-        <th>Prys</th>
-        <th>Totaal</th>
-      </tr>
-    </thead>
-    <tbody>
-      <tr *ngFor="let row of data.transactions; index as i">
-        <td>{{ i + 1 }}</td>
-        <td *ngIf="row.sale_timestamp">
-          {{ row.sale_timestamp | date: "dd/MM/yyyy" }}
-        </td>
-        <td>{{ row.item }}</td>
-        <td>{{ row.amount }}</td>
-        <td>{{ row.unit_price | currency: "R " }}</td>
-        <td>{{ row.total | currency: "R " }}</td>
-      </tr>
-    </tbody>
-    <tfoot>
-      <tr>
-        <td></td>
-        <td *ngIf="data.transactions[0].sale_timestamp"></td>
-        <td></td>
-        <td></td>
-        <td>
-          <b>Totaal</b>
-        </td>
-        <td>
-          <b>{{ getTotal() | currency: "R " }}</b>
-        </td>
-      </tr>
-    </tfoot>
-  </table>
-  <div class="column center">
-    <h3>Bankbesonderhede</h3>
-    <div>Orania Kontreiwinkel FNB</div>
-    <div>Tak: 230203</div>
-    <div>Rek Nr. 627 524 997 83</div>
-    <div>E-pos asb bewys na kontreiwinkel.orania@gmail.com</div>
-    <div>BAIE DANKIE VIR DIE ONDERSTEUNING!</div>
-  </div>
-</section>
+    <table cellspacing="0" *ngIf="data.transactions[0]">
+      <thead>
+        <tr>
+          <th>Nr.</th>
+          <th *ngIf="data.transactions[0].sale_timestamp">Datum</th>
+          <th>Beskrywing</th>
+          <th>Aantal</th>
+          <th>Prys</th>
+          <th>Totaal</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr *ngFor="let row of data.transactions; index as i">
+          <td>{{ i + 1 }}</td>
+          <td *ngIf="row.sale_timestamp">
+            {{ row.sale_timestamp | date: "dd/MM/yyyy" }}
+          </td>
+          <td>{{ row.item }}</td>
+          <td>{{ row.amount }}</td>
+          <td>{{ row.unit_price | currency: "R " }}</td>
+          <td>{{ row.total | currency: "R " }}</td>
+        </tr>
+      </tbody>
+      <tfoot>
+        <tr>
+          <td></td>
+          <td *ngIf="data.transactions[0].sale_timestamp"></td>
+          <td></td>
+          <td></td>
+          <td>
+            <b>Totaal</b>
+          </td>
+          <td>
+            <b>{{ getTotal() | currency: "R " }}</b>
+          </td>
+        </tr>
+      </tfoot>
+    </table>
+    <div class="column center" *ngIf="data.details">
+      <h3>Bankbesonderhede</h3>
+      <div>Orania Kontreiwinkel</div>
+      <div>FNB Tak: 230203</div>
+      <div>Rek Nr. 627 524 997 83</div>
+      <div>E-pos asb bewys na kontreiwinkel.orania@gmail.com</div>
+      <div>BAIE DANKIE VIR DIE ONDERSTEUNING!</div>
+    </div>
+  </section>
+</div>

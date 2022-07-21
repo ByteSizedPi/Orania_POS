@@ -1,3 +1,4 @@
+import { Invoice } from './../../../models/types/Types';
 import { map, tap } from 'rxjs/operators';
 import { ID_Name } from './../../../models/types/Consignor';
 import { FullTransaction } from './../../../models/types/Transaction';
@@ -48,12 +49,7 @@ export class ConsignorReportComponent {
   showInvoice: boolean = false;
 
   chartData: { name: string; series: Series[] }[] | undefined;
-  invoiceData:
-    | {
-        transactions: FullTransaction[];
-        name: string;
-      }
-    | undefined;
+  invoiceData: Invoice;
 
   @ViewChild(InvoiceComponent) invoice: InvoiceComponent;
   dateStart: Date | undefined;
@@ -105,6 +101,7 @@ export class ConsignorReportComponent {
   }
 
   setEnd(date: Date) {
+    if (!date) return;
     this.dateEnd = date.addDays(1);
     this.getData();
   }
@@ -132,7 +129,7 @@ export class ConsignorReportComponent {
       start: this.dateStart.toISOString(),
       end: this.dateEnd.toISOString(),
     };
-    this.table = this.query.getTransactionsTable(body);
+    this.table = this.query.getTransactionsByIDDateTable(body);
     setTimeout(() => (this.tableIsAvailable = true), 0);
     // this.tableIsAvailable = true;
 
@@ -174,13 +171,9 @@ export class ConsignorReportComponent {
       end: this.dateEnd.toISOString(),
     };
     const name = this.curConsignor.name_surname;
-    this.query.getTransactions(body).subscribe((transactions) => {
+    this.query.getTransactionsByIDDate(body).subscribe((transactions) => {
       this.invoiceData = { transactions: transactions, name: name };
       this.showInvoice = true;
     });
-  }
-
-  printInvoice() {
-    this.invoice.downloadAsPDF();
   }
 }

@@ -1,22 +1,15 @@
+import { Invoice } from './../../models/types/Types';
 import { NewConsignorService } from './new-consignor/new-consignor.service';
-import { prePad } from './../../models/types/Utils';
 import { dateToDays } from './../../models/types/Date';
-import {
-  FullTransaction,
-  TransactionTable,
-} from './../../models/types/Transaction';
+
 import { QueryService } from './../../services/query.service';
-import { Observable } from 'rxjs';
-import { Component, OnInit } from '@angular/core';
-import { FormGroup, FormControl } from '@angular/forms';
-import { Consignor } from '../../models/types/Consignor';
-import { BrowserModule } from '@angular/platform-browser';
-import { NgxChartsModule } from '@swimlane/ngx-charts';
+import { Component } from '@angular/core';
 import { MatSidenav } from '@angular/material/sidenav';
+import { FullTransaction } from '../../models/types/Transaction';
 
 enum Category {
-  Verslae = 'Per Afsender',
-  Statistiek = 'Winkel Statistiek',
+  Verslae = 'Transaksies',
+  Statistiek = 'Totale',
 }
 
 @Component({
@@ -25,21 +18,8 @@ enum Category {
   styleUrls: ['./consignors.component.scss'],
 })
 export class ConsignorsComponent {
-  prePad = prePad;
   Category = Category;
-
-  consignors: Observable<Consignor[]>;
-  curConsignor: Consignor | null;
-  transactions: TransactionTable;
-
-  range = new FormGroup({
-    start: new FormControl(),
-    end: new FormControl(),
-  });
-
-  category: Category = Category.Statistiek;
-  visual: boolean = true;
-  tableIsAvailable: boolean = false;
+  category: Category = Category.Verslae;
 
   chartResponse: {
     item: string;
@@ -52,23 +32,16 @@ export class ConsignorsComponent {
 
   dateStart: Date;
   dateEnd: Date;
+  showInvoice: boolean = false;
+  invoiceData: Invoice;
 
   constructor(private query: QueryService, public modal: NewConsignorService) {
-    this.consignors = this.query.getAllConsignors();
+    // this.consignors = this.query.getAllConsignors();
   }
 
   showCategory(nav: MatSidenav, category: Category) {
-    // nav.toggle();
     this.category = category;
   }
-
-  getHeaders = () =>
-    this.transactions.displayFormat.map(({ columnDef }) => columnDef);
-
-  getTotal = () =>
-    this.transactions.data.data
-      .map(({ total }) => +total)
-      .reduce((acc, val) => +acc + val, 0);
 
   getChartData = () => {
     this.chartData = [];
@@ -106,4 +79,24 @@ export class ConsignorsComponent {
       this.chartData.push({ name: date, series: series });
     }
   };
+
+  getDayReport(): void {
+    const dateStart = new Date(
+      `${
+        new Date().getMonth() + 1
+      }-${new Date().getDate()}-${new Date().getFullYear()} 00:00:00`
+    );
+    // const dateStart = new Date().addDays(-1);
+    const dateEnd = new Date().addDays(1);
+
+    const body = {
+      start: dateStart.toISOString(),
+      end: dateEnd.toISOString(),
+    };
+
+    this.query.getTransactionsByDate(body).subscribe((transactions) => {
+      this.invoiceData = { transactions: transactions, details: false };
+      this.showInvoice = true;
+    });
+  }
 }

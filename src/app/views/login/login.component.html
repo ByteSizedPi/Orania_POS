@@ -1,0 +1,67 @@
+<section class="center">
+  <form autocomplete="off" class="column center-vertical">
+    <h1>Teken Aan</h1>
+    <mat-form-field appearance="outline" id="username" floatLabel="always">
+      <mat-label>GebruikerNaam</mat-label>
+      <mat-icon matPrefix>account_circle</mat-icon>
+      <input
+        id="username-input"
+        type="text"
+        matInput
+        spellcheck="false"
+        [formControl]="username()"
+      />
+      <!-- [(ngModel)]="form.username" -->
+      <button
+        *ngIf="username()"
+        matSuffix
+        mat-icon-button
+        aria-label="Clear"
+        tabindex="-1"
+      >
+        <!-- (click)="username().value = ''" -->
+        <mat-icon>close</mat-icon>
+      </button>
+
+      <mat-error *ngIf="username().invalid">
+        {{ username().errors?.error }}
+      </mat-error>
+    </mat-form-field>
+
+    <mat-form-field appearance="outline" id="password" floatLabel="always">
+      <mat-label>Wagwoord</mat-label>
+      <mat-icon matPrefix>lock</mat-icon>
+      <input
+        id="username-input"
+        type="password"
+        matInput
+        spellcheck="false"
+        [formControl]="password()"
+      />
+      <!-- [(ngModel)]="form.password"
+        [formControl]="passwordControl" -->
+      <button
+        *ngIf="password()"
+        matSuffix
+        mat-icon-button
+        aria-label="Clear"
+        tabindex="-1"
+      >
+        <!-- (click)="form.password = ''" -->
+        <mat-icon>close</mat-icon>
+      </button>
+      <mat-error *ngIf="password().invalid">
+        {{ password().errors?.error }}
+      </mat-error>
+    </mat-form-field>
+
+    <button
+      mat-flat-button
+      color="primary"
+      (click)="submit()"
+      [disabled]="username().invalid || password().invalid"
+    >
+      Teken Aan
+    </button>
+  </form>
+</section>

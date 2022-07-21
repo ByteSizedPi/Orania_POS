@@ -34,6 +34,7 @@ import { MatPaginatorModule } from '@angular/material/paginator';
 import { InvoiceComponent } from './shared/components/invoice/invoice.component';
 import { ShopStatsComponent } from './shared/components/consignors/shop-stats/shop-stats.component';
 import { TableComponent } from './shared/components/table/table.component';
+import { LoginComponent } from './views/login/login.component';
 
 @NgModule({
   declarations: [
@@ -48,6 +49,7 @@ import { TableComponent } from './shared/components/table/table.component';
     InvoiceComponent,
     ShopStatsComponent,
     TableComponent,
+    LoginComponent,
   ],
   imports: [
     BrowserModule,

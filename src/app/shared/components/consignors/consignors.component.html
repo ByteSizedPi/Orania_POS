@@ -1,60 +1,53 @@
-<!-- <mat-sidenav-container class="side-nav"> -->
 <section>
-  <div class="column h-100" id="sidenav">
-    <h2>Opsies</h2>
-    <button mat-raised-button (click)="category = Category.Verslae">
-      {{ Category.Verslae }}
+  <mat-card class="column" id="sidenav">
+    <mat-card-title-group class="center">
+      <mat-icon>bar_chart</mat-icon>
+      Data
+    </mat-card-title-group>
+    <mat-card-content>
+      <button
+        mat-stroked-button
+        class="w-100"
+        (click)="category = Category.Verslae"
+      >
+        {{ Category.Verslae }}
+      </button>
+      <button
+        mat-stroked-button
+        class="w-100"
+        (click)="category = Category.Statistiek"
+      >
+        {{ Category.Statistiek }}
+      </button>
+    </mat-card-content>
+    <mat-card-title-group class="center">
+      <mat-icon>folder_open</mat-icon>
+      Ander
+    </mat-card-title-group>
+    <button
+      mat-flat-button
+      class="w-100"
+      color="primary"
+      (click)="getDayReport()"
+    >
+      Dag Verslag
     </button>
-    <button mat-raised-button (click)="category = Category.Statistiek">
-      {{ Category.Statistiek }}
-    </button>
-    <button mat-raised-button color="primary" (click)="modal.modalIn()">
+    <button
+      mat-flat-button
+      class="w-100"
+      color="primary"
+      (click)="modal.modalIn()"
+    >
       Nuwe Afsender
     </button>
-  </div>
-  <!-- <mat-sidenav #sidenav mode="side" opened>
-    <h3>Afsender Opsies</h3>
-    <mat-divider></mat-divider>
-    <div class="nav-section">
-      <p>
-        <button mat-button (click)="showCategory(sidenav, Category.Verslae)">
-          {{ Category.Verslae }}
-        </button>
-      </p>
-      <p>
-        <button mat-button (click)="showCategory(sidenav, Category.Statistiek)">
-          {{ Category.Statistiek }}
-        </button>
-      </p>
-      <p>
-        <button mat-raised-button color="primary" (click)="modal.modalIn()">
-          Nuwe Afsender
-        </button>
-      </p>
-    </div>
-  </mat-sidenav> -->
-
-  <!-- <mat-sidenav-content> -->
-  <!-- <div id="menu-toggle" class="row center-vertical">
-      <button
-      mat-fab
-      class="center"
-      id="options"
-      (click)="sidenav.toggle()"
-      color="primary"
-      >
-      <mat-icon>menu</mat-icon>
-    </button>
-
-    <h1>{{ category }}</h1>
-  </div> -->
+  </mat-card>
   <app-consignor-report
     *ngIf="category === Category.Verslae"
   ></app-consignor-report>
   <app-shop-stats *ngIf="category === Category.Statistiek"></app-shop-stats>
 </section>
-<!-- <div class="column center-vertical"></div> -->
-
-<!-- <section *ngIf="category === Category.Statistiek"></section> -->
-<!-- </mat-sidenav-content> -->
-<!-- </mat-sidenav-container> -->
+<app-invoice
+  (closed)="showInvoice = false"
+  *ngIf="invoiceData && showInvoice"
+  [data]="invoiceData"
+></app-invoice>

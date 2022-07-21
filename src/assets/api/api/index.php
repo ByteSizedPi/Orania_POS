@@ -28,6 +28,10 @@ $router->get('transaction/week', $transaction->getAllByWeek);
 $router->get('transaction/month', $transaction->getAllByMonth);
 $router->get('transaction/year', $transaction->getAllByYear);
 $router->get(
+  'transaction/range',
+  fn () => ($transaction->getByDate)($params['start'], $params['end'])
+);
+$router->get(
   'transaction/subset',
   fn () => ($transaction->getByIDDate)($params['id'], $params['start'], $params['end'])
 );

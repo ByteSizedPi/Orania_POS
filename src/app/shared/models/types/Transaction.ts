@@ -7,9 +7,14 @@ interface BaseTransaction {
   total: number;
 }
 
+export interface Item extends BaseTransaction {
+  consignor_id: string;
+  sale_timestamp?: string;
+}
+
 export interface FullTransaction extends BaseTransaction {
   consignor_id: string;
-  sale_timestamp: string;
+  sale_timestamp?: string;
 }
 
 export class TransactionTable extends Table<FullTransaction> {
@@ -78,11 +83,6 @@ export class ByYearTable extends Table<ByYear> {
   constructor(data: ByYear[]) {
     super([['Jaar', 'year'], total<ByYear>()], data);
   }
-}
-
-export interface Item extends BaseTransaction {
-  consignor_id: string;
-  sale_timestamp?: string;
 }
 
 export interface Report {

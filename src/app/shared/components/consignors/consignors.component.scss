@@ -1,38 +1,16 @@
-#options {
-  margin: 1rem;
-  padding: 0;
-}
-
-#sidenav {
-  // border-right: 1px solid rgb(141, 141, 141);
+mat-card-actions {
   padding: 0.5rem;
-  color: white;
-  h2 {
-    text-align: center;
-  }
-  button {
-    margin: 0.5rem 0;
-  }
 }
 
-// mat-sidenav-content {
-// 	display: grid;
-// 	grid-template-columns: 1fr 10fr;
-// }
-
-#menu-toggle {
-  position: absolute;
-}
-
-#controls {
-  margin: 0 0.5rem;
+mat-card {
+  height: calc(100% - 3rem);
 }
 
 section {
   display: grid;
   grid-template-columns: 12rem auto;
-  // margin: 0 0.5rem;
   height: calc(100vh - 3rem);
+  padding: 0;
 }
 
 .chart.ng-star-inserted {
@@ -50,70 +28,8 @@ mat-form-field {
   margin: 1.34375em 0.5rem 0 0.5rem;
 }
 
-mat-button-toggle-group {
-  margin-left: 2rem;
-}
 .mat-button-toggle-group {
   overflow: visible;
-}
-
-.row-grid {
-  // display: grid;
-  // grid-template-columns: 1fr 1fr;
-  // gap: 2rem;
-  margin: 0 0.5rem;
-  height: 100%;
-}
-
-.table-container {
-  overflow: auto;
-  margin: 0.5rem;
-  height: calc(100vh - 4rem);
-}
-
-table {
-  width: 100%;
-  max-height: calc(100vh - 4rem);
-
-  button {
-    margin: 0.75rem 0;
-  }
-}
-
-.time-button {
-  height: 59.5px;
-  margin: 0 0.5rem;
-}
-
-mat-sidenav {
-  .nav-section {
-    padding: 1rem 0;
-  }
-  p {
-    display: flex;
-    flex-direction: row;
-    justify-content: center;
-  }
-
-  button {
-    width: 10rem;
-  }
-}
-
-// .mat-form-field {
-// 	font-size: 14px;
-// 	width: 100%;
-// }
-
-// th,
-// .txt-lg {
-// 	font-size: 1.1rem;
-// 	color: black;
-// 	font-weight: 600;
-// }
-
-.mat-stroked-button {
-  margin: 1.34375em;
 }
 
 h1 {
@@ -131,32 +47,10 @@ h3 {
   text-align: center;
 }
 
-.side-nav {
-  height: calc(100vh - 3rem);
-  position: relative;
-  top: 0;
-  bottom: 0;
-  left: 0;
-  right: 0;
-
-  button {
-    padding: 0.25rem;
-  }
+button {
+  margin: 0.25rem 0;
 }
 
-.insta-toggles {
-  padding: 0.5rem;
-
-  #date-shortcut {
-    margin-right: 0.25rem;
-  }
-
-  #view-toggle {
-    margin-left: 0.25rem;
-  }
-
-  button {
-    margin-top: 0.5rem;
-    width: 100%;
-  }
+mat-icon {
+  margin-right: 0.2rem;
 }
