@@ -1,8 +1,8 @@
-import { QueryService } from './../../../services/query.service';
 import { NewConsignorService } from './new-consignor.service';
 import { AbstractControl, FormControl, Validators } from '@angular/forms';
 import { Component, OnInit } from '@angular/core';
 import { map } from 'rxjs/operators';
+import { QueryService } from 'src/app/shared/services/query.service';
 
 interface Erorr {
   minLength: { requiredLength: number; actualLength: number };

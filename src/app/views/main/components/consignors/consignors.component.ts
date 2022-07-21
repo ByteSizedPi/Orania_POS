@@ -1,11 +1,9 @@
-import { Invoice } from './../../models/types/Types';
-import { NewConsignorService } from './new-consignor/new-consignor.service';
-import { dateToDays } from './../../models/types/Date';
-
-import { QueryService } from './../../services/query.service';
 import { Component } from '@angular/core';
 import { MatSidenav } from '@angular/material/sidenav';
-import { FullTransaction } from '../../models/types/Transaction';
+import { dateToDays } from 'src/app/shared/models/types/Date';
+import { Invoice } from 'src/app/shared/models/types/Types';
+import { QueryService } from 'src/app/shared/services/query.service';
+import { NewConsignorService } from './new-consignor/new-consignor.service';
 
 enum Category {
   Verslae = 'Transaksies',

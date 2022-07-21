@@ -1,12 +1,6 @@
-import { MatTableDataSource } from '@angular/material/table';
-import {
-  FullTransaction,
-  TransactionTable,
-} from './../../models/types/Transaction';
-import { Consignor } from './../../models/types/Consignor';
-import { QueryService } from './../../services/query.service';
 import { Component, OnInit } from '@angular/core';
-import { Table } from '../../models/types/Types';
+import { MatTableDataSource } from '@angular/material/table';
+import { QueryService } from 'src/app/shared/services/query.service';
 
 @Component({
   selector: 'app-queries',

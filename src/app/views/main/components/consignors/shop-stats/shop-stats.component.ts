@@ -1,9 +1,6 @@
-import { Id } from 'src/app/shared/models/types/Utils';
-import { ByWeek, ByWeekTable } from './../../../models/types/Transaction';
 import { Component, OnInit } from '@angular/core';
+import { Total } from 'src/app/shared/models/types/Types';
 import { QueryService } from 'src/app/shared/services/query.service';
-import { Table, Total } from 'src/app/shared/models/types/Types';
-import { Observable } from 'rxjs/internal/Observable';
 
 @Component({
   selector: 'app-shop-stats',

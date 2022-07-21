@@ -1,5 +1,4 @@
 import { Invoice } from './../../models/types/Types';
-import { Item } from './../../models/types/Transaction';
 import { QueryService } from 'src/app/shared/services/query.service';
 import {
   Component,
@@ -9,7 +8,6 @@ import {
   Output,
   ViewChild,
 } from '@angular/core';
-import { FullTransaction } from '../../models/types/Transaction';
 // import jsPDF from 'jspdf';
 import pdfMake from 'pdfmake/build/pdfmake';
 import pdfFonts from 'pdfmake/build/vfs_fonts';

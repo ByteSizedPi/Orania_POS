@@ -2,7 +2,6 @@ import { Table, Total } from './../../models/types/Types';
 import {
   Component,
   Input,
-  OnInit,
   ViewChild,
   ElementRef,
   AfterViewInit,
@@ -10,7 +9,6 @@ import {
 import { Observable } from 'rxjs/internal/Observable';
 import { MatPaginator } from '@angular/material/paginator';
 import { MatSort } from '@angular/material/sort';
-import { Id } from '../../models/types/Utils';
 
 @Component({
   selector: 'app-table',

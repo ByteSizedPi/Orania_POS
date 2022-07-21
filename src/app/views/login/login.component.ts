@@ -1,10 +1,5 @@
 import { UserService } from './../../shared/services/user.service';
-import {
-  Component,
-  OnInit,
-  AfterViewInit,
-  AfterContentInit,
-} from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import {
   AbstractControl,
   FormControl,

@@ -33,9 +33,7 @@
           #codeAuto="matAutocomplete"
           (optionActivated)="inputArr[0].tempValue = $event.option?.value"
           (closed)="onClose(0)"
-          (optionSelected)="
-            optionSelected(0, $event.option?.value, itemTrigger)
-          "
+          (optionSelected)="optionSelected(0, $event.option.value, itemTrigger)"
         >
           <mat-option *ngFor="let option of codeOptions" [value]="option">
             {{ option }}
@@ -71,7 +69,7 @@
           (optionActivated)="inputArr[1].tempValue = $event.option?.value"
           (closed)="onClose(1)"
           (optionSelected)="
-            optionSelected(1, $event.option?.value, amountTrigger)
+            optionSelected(1, $event.option.value, amountTrigger)
           "
         >
           <mat-option *ngFor="let option of itemOptions" [value]="option">
@@ -106,7 +104,7 @@
           #amountAuto="matAutocomplete"
           (optionActivated)="inputArr[2].tempValue = $event.option?.value"
           (closed)="onClose(2)"
-          (optionSelected)="optionSelected(2, $event.option?.value)"
+          (optionSelected)="optionSelected(2, $event.option.value)"
         >
           <mat-option *ngFor="let option of amountOptions" [value]="option">
             {{ option }}

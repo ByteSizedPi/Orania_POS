@@ -1,32 +1,14 @@
-import { Invoice } from './../../models/types/Types';
-import { TransactionService } from '../../services/transaction.service';
-import { TransactionEventService } from './confirm-transaction/transaction-modal.service';
-import { QueryService } from './../../services/query.service';
-import { Id } from '../../models/types/Utils';
-import { AfterViewInit, Component, OnInit, ViewChild } from '@angular/core';
-import {
-  AbstractControl,
-  FormControl,
-  FormGroup,
-  ValidationErrors,
-  ValidatorFn,
-  Validators,
-} from '@angular/forms';
-import { from, Observable, of } from 'rxjs';
-import {
-  concatMap,
-  filter,
-  map,
-  startWith,
-  switchMap,
-  mergeMap,
-} from 'rxjs/operators';
-import {
-  MatAutocompleteActivatedEvent,
-  MatAutocompleteTrigger,
-} from '@angular/material/autocomplete';
-import { FullTransaction, Item } from '../../models/types/Transaction';
-import { InvoiceComponent } from '../invoice/invoice.component';
+import { Component, OnInit, AfterViewInit, ViewChild } from '@angular/core';
+import { FormControl, Validators } from '@angular/forms';
+import { MatAutocompleteTrigger } from '@angular/material/autocomplete';
+import { Observable } from 'rxjs';
+import { startWith, map } from 'rxjs/operators';
+import { InvoiceComponent } from 'src/app/shared/components/invoice/invoice.component';
+import { Item } from 'src/app/shared/models/types/Transaction';
+import { Invoice } from 'src/app/shared/models/types/Types';
+import { Id } from 'src/app/shared/models/types/Utils';
+import { QueryService } from 'src/app/shared/services/query.service';
+import { TransactionService } from 'src/app/shared/services/transaction.service';
 
 @Component({
   selector: 'app-transaction',
@@ -66,7 +48,7 @@ export class TransactionComponent implements OnInit, AfterViewInit {
 
   constructor(
     private queryService: QueryService,
-    private modal: TransactionEventService,
+    // private modal: TransactionEventService,
     public transaction: TransactionService
   ) {
     const filterValues = (array: string[], value: string) =>
@@ -188,7 +170,6 @@ export class TransactionComponent implements OnInit, AfterViewInit {
   };
 
   completeTransaction() {
-    this.modal.modalIn();
     this.transaction.completeTransaction.subscribe((val) => {
       this.list = [];
       alert('transaksie suksesvol!');

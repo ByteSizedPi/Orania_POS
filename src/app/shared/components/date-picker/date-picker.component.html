@@ -1,0 +1,11 @@
+<mat-form-field appearance="outline">
+  <mat-label>Datum</mat-label>
+  <input
+    matInput
+    [matDatepicker]="picker"
+    (dateChange)="dateChanged($event.value)"
+  />
+  <mat-hint>MM/DD/YYYY</mat-hint>
+  <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
+  <mat-datepicker #picker [calendarHeaderComponent]="header"></mat-datepicker>
+</mat-form-field>

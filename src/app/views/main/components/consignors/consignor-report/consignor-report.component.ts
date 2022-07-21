@@ -1,19 +1,12 @@
-import { Invoice } from './../../../models/types/Types';
-import { map, tap } from 'rxjs/operators';
-import { ID_Name } from './../../../models/types/Consignor';
-import { FullTransaction } from './../../../models/types/Transaction';
-import { Component, OnInit, ViewChild } from '@angular/core';
-import { FormControl, FormGroup } from '@angular/forms';
-import { MatSidenav } from '@angular/material/sidenav';
+import { Component, ViewChild } from '@angular/core';
+import { FormGroup, FormControl } from '@angular/forms';
 import { Observable } from 'rxjs';
-import { Consignor } from 'src/app/shared/models/types/Consignor';
+import { InvoiceComponent } from 'src/app/shared/components/invoice/invoice.component';
+import { ID_Name, Consignor } from 'src/app/shared/models/types/Consignor';
 import { TransactionTable } from 'src/app/shared/models/types/Transaction';
-import { dateToDays, loopDays } from 'src/app/shared/models/types/Date';
+import { Invoice } from 'src/app/shared/models/types/Types';
 import { QueryService } from 'src/app/shared/services/query.service';
 import { NewConsignorService } from '../new-consignor/new-consignor.service';
-import { MatPaginator } from '@angular/material/paginator';
-import { MatSort } from '@angular/material/sort';
-import { InvoiceComponent } from '../../invoice/invoice.component';
 
 enum Category {
   Verslae = 'Verslae',
@@ -54,6 +47,7 @@ export class ConsignorReportComponent {
   @ViewChild(InvoiceComponent) invoice: InvoiceComponent;
   dateStart: Date | undefined;
   dateEnd: Date | undefined;
+  curDateFunction: () => void = this.setDay;
   dateShortcut: string = 'Dag';
 
   constructor(public query: QueryService, public modal: NewConsignorService) {
@@ -61,42 +55,49 @@ export class ConsignorReportComponent {
     this.setDay();
   }
 
-  setDay(): void {
-    this.dateStart = new Date(
-      `${
-        new Date().getMonth() + 1
-      }-${new Date().getDate()}-${new Date().getFullYear()} 00:00:00`
-    );
-    this.dateEnd = new Date().addDays(1);
-    this.dateShortcut = 'Dag';
+  setDate(
+    name: string,
+    curFunc: () => void,
+    endf: (end: Date) => Date,
+    start?: Date
+  ): void {
+    this.curDateFunction = curFunc;
+    if (start) this.dateStart = start;
+    if (!this.dateStart) this.dateStart = new Date().dayBegin();
+    this.dateEnd = endf(this.dateStart);
+    this.dateShortcut = name;
     this.getData();
   }
 
-  setWeek(): void {
-    this.dateStart = new Date().addDays(-6);
-    this.dateEnd = new Date().addDays(1);
-    this.dateShortcut = 'Week';
-    this.getData();
+  setDay() {
+    this.setDate('Dag', this.setDay, (date) => date.addDays(1));
+  }
+
+  setWeek() {
+    this.setDate('Week', this.setWeek, (date) => date.addDays(6));
   }
 
   setMonth() {
-    this.dateStart = new Date(
-      `${new Date().getMonth() + 1}-01-${new Date().getFullYear()} 00:00:00`
+    this.setDate(
+      'Maand',
+      this.setMonth,
+      (endDate) => endDate.monthBegin().addMonths(1).addDays(-1),
+      this.dateStart?.monthBegin()
     );
-    this.dateEnd = new Date().addDays(1);
-    this.dateShortcut = 'Maand';
-    this.getData();
   }
 
   setYear() {
-    this.dateStart = new Date(`01-01-${new Date().getFullYear()} 00:00:00`);
-    this.dateEnd = new Date().addDays(1);
-    this.dateShortcut = 'Jaar';
-    this.getData();
+    this.setDate(
+      'Jaar',
+      this.setYear,
+      (date) => date.yearBegin().addYears(1).addDays(-1),
+      this.dateStart?.yearBegin()
+    );
   }
 
   setStart(date: Date) {
     this.dateStart = date;
+    this.curDateFunction();
     this.getData();
   }
 

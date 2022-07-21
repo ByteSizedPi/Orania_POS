@@ -15,7 +15,7 @@
         </mat-select>
       </mat-form-field>
 
-      <mat-form-field appearance="outline">
+      <!-- <mat-form-field appearance="outline">
         <mat-label>Voer n Datumreeks in</mat-label>
         <mat-date-range-input [formGroup]="range" [rangePicker]="picker">
           <input
@@ -40,7 +40,8 @@
         <mat-error *ngIf="range.controls.end.hasError('matEndDateInvalid')"
           >Ongeldige Eind Datum</mat-error
         >
-      </mat-form-field>
+      </mat-form-field> -->
+      <date-picker (dateChange)="setStart($event.value)"></date-picker>
 
       <div class="row center-vertical space-between w-100 insta-toggles">
         <button
@@ -48,7 +49,7 @@
           color="accent"
           mat-raised-button
           [matMenuTriggerFor]="menu"
-          [disabled]="!curConsignor"
+          [disabled]="!curConsignor || !dateStart"
         >
           {{ dateShortcut }}
         </button>

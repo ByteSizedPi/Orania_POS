@@ -11,7 +11,7 @@ import { MatTableModule } from '@angular/material/table';
 import { MatAutocompleteModule } from '@angular/material/autocomplete';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatInputModule } from '@angular/material/input';
-import { TransactionComponent } from './shared/components/transaction/transaction.component';
+import { TransactionComponent } from './views/main/components/transaction/transaction.component';
 import { MatIconModule } from '@angular/material/icon';
 import { MatButtonModule } from '@angular/material/button';
 import { ReactiveFormsModule, FormsModule } from '@angular/forms';
@@ -19,22 +19,23 @@ import { MatButtonToggleModule } from '@angular/material/button-toggle';
 import { MatSelectModule } from '@angular/material/select';
 import { MatDatepickerModule } from '@angular/material/datepicker';
 import { MatNativeDateModule } from '@angular/material/core';
-import { QueriesComponent } from './shared/components/queries/queries.component';
+import { QueriesComponent } from './views/main/components/queries/queries.component';
 import { MatCardModule } from '@angular/material/card';
-import { ConfirmTransactionComponent } from './shared/components/transaction/confirm-transaction/confirm-transaction.component';
-import { ConsignorsComponent } from './shared/components/consignors/consignors.component';
+import { ConsignorsComponent } from './views/main/components/consignors/consignors.component';
 import { NgxChartsModule } from '@swimlane/ngx-charts';
 import { MatSidenavModule } from '@angular/material/sidenav';
-import { NewConsignorComponent } from './shared/components/consignors/new-consignor/new-consignor.component';
+import { NewConsignorComponent } from './views/main/components/consignors/new-consignor/new-consignor.component';
 import { MatDividerModule } from '@angular/material/divider';
 import { MatMenuModule } from '@angular/material/menu';
 import { MatSlideToggleModule } from '@angular/material/slide-toggle';
-import { ConsignorReportComponent } from './shared/components/consignors/consignor-report/consignor-report.component';
+import { ConsignorReportComponent } from './views/main/components/consignors/consignor-report/consignor-report.component';
 import { MatPaginatorModule } from '@angular/material/paginator';
 import { InvoiceComponent } from './shared/components/invoice/invoice.component';
-import { ShopStatsComponent } from './shared/components/consignors/shop-stats/shop-stats.component';
+import { ShopStatsComponent } from './views/main/components/consignors/shop-stats/shop-stats.component';
 import { TableComponent } from './shared/components/table/table.component';
 import { LoginComponent } from './views/login/login.component';
+import { DatePickerComponent } from './shared/components/date-picker/date-picker.component';
+import { DatePickerHeaderComponent } from './shared/components/date-picker/date-picker-header/date-picker-header.component';
 
 @NgModule({
   declarations: [
@@ -42,7 +43,6 @@ import { LoginComponent } from './views/login/login.component';
     MainComponent,
     TransactionComponent,
     QueriesComponent,
-    ConfirmTransactionComponent,
     ConsignorsComponent,
     NewConsignorComponent,
     ConsignorReportComponent,
@@ -50,6 +50,8 @@ import { LoginComponent } from './views/login/login.component';
     ShopStatsComponent,
     TableComponent,
     LoginComponent,
+    DatePickerComponent,
+    DatePickerHeaderComponent,
   ],
   imports: [
     BrowserModule,
