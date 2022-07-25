@@ -1,5 +1,10 @@
 import { Component, OnInit, AfterViewInit, ViewChild } from '@angular/core';
-import { FormControl, Validators } from '@angular/forms';
+import {
+  AbstractControl,
+  FormControl,
+  ValidationErrors,
+  Validators,
+} from '@angular/forms';
 import { MatAutocompleteTrigger } from '@angular/material/autocomplete';
 import { Observable } from 'rxjs';
 import { startWith, map } from 'rxjs/operators';
@@ -48,7 +53,6 @@ export class TransactionComponent implements OnInit, AfterViewInit {
 
   constructor(
     private queryService: QueryService,
-    // private modal: TransactionEventService,
     public transaction: TransactionService
   ) {
     const filterValues = (array: string[], value: string) =>
@@ -58,6 +62,12 @@ export class TransactionComponent implements OnInit, AfterViewInit {
 
     this.queryService.getIDs().subscribe((ids) => {
       this.codeOptions = ids;
+      const codeExists = (control: AbstractControl): ValidationErrors | null =>
+        ids.find((val) => control.value === val)
+          ? null
+          : { error: 'afsender bestaan nie' };
+
+      this.codeControl = new FormControl('', [Validators.required, codeExists]);
       this.filteredCodes = this.codeControl.valueChanges.pipe(
         startWith(''),
         // map((value) => filterValues(ids, value))
@@ -168,13 +178,6 @@ export class TransactionComponent implements OnInit, AfterViewInit {
     this.inputArr[index].element?.click();
     setTimeout(() => trigger?.openPanel(), 0);
   };
-
-  completeTransaction() {
-    this.transaction.completeTransaction.subscribe((val) => {
-      this.list = [];
-      alert('transaksie suksesvol!');
-    });
-  }
 
   previewInvoice() {
     this.invoiceData = { transactions: this.list, details: true };

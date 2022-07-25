@@ -1,50 +1,6 @@
 <section>
-  <mat-card class="column" id="sidenav">
-    <mat-card-title-group class="center">
-      <mat-icon>bar_chart</mat-icon>
-      Data
-    </mat-card-title-group>
-    <mat-card-content>
-      <button
-        mat-stroked-button
-        class="w-100"
-        (click)="category = Category.Verslae"
-      >
-        {{ Category.Verslae }}
-      </button>
-      <button
-        mat-stroked-button
-        class="w-100"
-        (click)="category = Category.Statistiek"
-      >
-        {{ Category.Statistiek }}
-      </button>
-    </mat-card-content>
-    <mat-card-title-group class="center">
-      <mat-icon>folder_open</mat-icon>
-      Ander
-    </mat-card-title-group>
-    <button
-      mat-flat-button
-      class="w-100"
-      color="primary"
-      (click)="getDayReport()"
-    >
-      Dag Verslag
-    </button>
-    <button
-      mat-flat-button
-      class="w-100"
-      color="primary"
-      (click)="modal.modalIn()"
-    >
-      Nuwe Afsender
-    </button>
-  </mat-card>
-  <app-consignor-report
-    *ngIf="category === Category.Verslae"
-  ></app-consignor-report>
-  <app-shop-stats *ngIf="category === Category.Statistiek"></app-shop-stats>
+  <app-consignor-report *ngIf="!category"></app-consignor-report>
+  <app-shop-stats *ngIf="category"></app-shop-stats>
 </section>
 <app-invoice
   (closed)="showInvoice = false"

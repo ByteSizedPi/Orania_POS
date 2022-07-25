@@ -217,11 +217,7 @@ text {
   fill: #e0e0e0;
 }
 
-mat-sidenav {
-  background-color: var(--bg);
-}
-
-mat-card {
+mat-card:not(.nav) {
   margin: 0.5rem;
 }
 
@@ -232,6 +228,16 @@ mat-card-title-group {
   &:not(:first-of-type) {
     margin-top: 2rem;
   }
+}
+
+mat-expansion-panel .mat-expansion-panel-body {
+  padding: 0 24px;
+}
+
+.mat-expansion-panel:not([class*="mat-elevation-z"]) {
+  box-shadow: none;
+  border-radius: 4px !important;
+  margin: 0.5rem 0;
 }
 
 @keyframes fade-in {

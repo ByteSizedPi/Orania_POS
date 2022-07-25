@@ -1,3 +1,4 @@
+import { Router } from '@angular/router';
 import { Injectable } from '@angular/core';
 import * as _ from 'lodash';
 import { User } from '../models/types/Types';
@@ -15,7 +16,7 @@ export class UserService {
 
   private user: User | undefined;
 
-  constructor() {}
+  constructor(private router: Router) {}
 
   getUser = (login: User) =>
     !!this.users.find((test) => _.isEqual(login, test));
@@ -31,7 +32,10 @@ export class UserService {
     return true;
   };
 
-  unsetUser = () => (this.user = undefined);
+  unsetUser = () => {
+    this.user = undefined;
+    this.router.navigate(['/login']);
+  };
 
   userExists = () => !!this.user;
 }

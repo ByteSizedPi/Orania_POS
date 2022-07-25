@@ -9,9 +9,9 @@
 .table-container {
   position: relative;
   overflow: auto;
-  height: calc(100% - 9rem);
-  max-height: calc(100% - 9rem);
-  background-color: var(--bg-light);
+  height: calc(100% - 8rem);
+  max-height: calc(100% - 8rem);
+  background-color: var(--bg);
   // box-shadow: rgba(0, 0, 0, 0.35) 0px 5px 15px;
 }
 

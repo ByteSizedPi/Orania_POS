@@ -36,6 +36,7 @@ import { TableComponent } from './shared/components/table/table.component';
 import { LoginComponent } from './views/login/login.component';
 import { DatePickerComponent } from './shared/components/date-picker/date-picker.component';
 import { DatePickerHeaderComponent } from './shared/components/date-picker/date-picker-header/date-picker-header.component';
+import { MatExpansionModule } from '@angular/material/expansion';
 
 @NgModule({
   declarations: [
@@ -78,6 +79,7 @@ import { DatePickerHeaderComponent } from './shared/components/date-picker/date-
     NgxChartsModule,
     MatSlideToggleModule,
     MatPaginatorModule,
+    MatExpansionModule,
   ],
   providers: [MatDatepickerModule],
   bootstrap: [AppComponent],

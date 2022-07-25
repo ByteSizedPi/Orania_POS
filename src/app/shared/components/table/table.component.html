@@ -21,10 +21,13 @@
       <tr mat-row *matRowDef="let row; columns: getHeaders()"></tr>
 
       <tr class="mat-row" *matNoDataRow>
-        <td class="mat-cell">Geen Transaksies</td>
+        <td class="mat-cell" [colSpan]="getHeaders().length">
+          Geen Transaksies
+        </td>
       </tr>
     </table>
   </div>
+  <!-- <div class="table-container" *ngIf="!dataLoaded">LOADING...</div> -->
   <div class="total-display column center">
     <div class="row" *ngIf="dataLoaded">
       <span>Totaal:</span>

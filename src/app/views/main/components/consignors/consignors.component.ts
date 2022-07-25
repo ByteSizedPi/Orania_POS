@@ -1,14 +1,14 @@
-import { Component } from '@angular/core';
+import { Component, Input } from '@angular/core';
 import { MatSidenav } from '@angular/material/sidenav';
 import { dateToDays } from 'src/app/shared/models/types/Date';
 import { Invoice } from 'src/app/shared/models/types/Types';
 import { QueryService } from 'src/app/shared/services/query.service';
 import { NewConsignorService } from './new-consignor/new-consignor.service';
 
-enum Category {
-  Verslae = 'Transaksies',
-  Statistiek = 'Totale',
-}
+// enum Category {
+//   Verslae = 'Transaksies',
+//   Statistiek = 'Totale',
+// }
 
 @Component({
   selector: 'app-consignors',
@@ -16,8 +16,9 @@ enum Category {
   styleUrls: ['./consignors.component.scss'],
 })
 export class ConsignorsComponent {
-  Category = Category;
-  category: Category = Category.Verslae;
+  @Input() category: number = 0;
+  // Category = Category;
+  // category: Category = Category.Verslae;
 
   chartResponse: {
     item: string;
@@ -37,9 +38,9 @@ export class ConsignorsComponent {
     // this.consignors = this.query.getAllConsignors();
   }
 
-  showCategory(nav: MatSidenav, category: Category) {
-    this.category = category;
-  }
+  // showCategory(nav: MatSidenav, category: Category) {
+  //   this.category = category;
+  // }
 
   getChartData = () => {
     this.chartData = [];

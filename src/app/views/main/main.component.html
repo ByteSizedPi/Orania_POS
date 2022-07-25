@@ -1,11 +1,81 @@
-<mat-tab-group dynamicHeight (selectedIndexChange)="tabChange($event)">
-  <mat-tab label="Nuwe Transaksie">
-    <app-transaction></app-transaction>
-  </mat-tab>
-  <mat-tab label="Afsenders">
-    <app-consignors *ngIf="activeTab === 1"></app-consignors>
-  </mat-tab>
-  <!-- <mat-tab label="Alle Tabelle">
-		<app-invoice *ngIf="activeTab === 2"></app-invoice>
-	</mat-tab> -->
-</mat-tab-group>
+<div id="main" class="h-100">
+  <nav class="column center-vertical space-between">
+    <mat-accordion displayMode="flat">
+      <mat-expansion-panel
+        hideToggle
+        [ngStyle]="getColor(0)"
+        (click)="activeTab = 0"
+      >
+        <mat-expansion-panel-header>
+          <mat-panel-title class="center-vertical">
+            <mat-icon>monetization_on</mat-icon>
+            Transaksie
+          </mat-panel-title>
+        </mat-expansion-panel-header>
+      </mat-expansion-panel>
+      <mat-expansion-panel
+        hideToggle
+        [ngStyle]="getColor(1)"
+        (click)="activeTab = 1"
+      >
+        <mat-expansion-panel-header>
+          <mat-panel-title class="center-vertical">
+            <mat-icon>bar_chart</mat-icon>
+            Rapporte
+          </mat-panel-title>
+        </mat-expansion-panel-header>
+        <div class="column">
+          <button
+            mat-flat-button
+            (click)="reportCategory = 0"
+            [ngStyle]="getBG(!reportCategory)"
+          >
+            Per Afsender
+          </button>
+          <button
+            mat-flat-button
+            (click)="reportCategory = 1"
+            [ngStyle]="getBG(!!reportCategory)"
+          >
+            Totale
+          </button>
+        </div>
+      </mat-expansion-panel>
+      <mat-expansion-panel
+        hideToggle
+        [ngStyle]="getColor(2)"
+        (click)="activeTab = 2"
+      >
+        <mat-expansion-panel-header>
+          <mat-panel-title class="center-vertical">
+            <mat-icon>account_circle</mat-icon>
+            Afsenders
+          </mat-panel-title>
+        </mat-expansion-panel-header>
+        <button
+          mat-flat-button
+          class="center-vertical"
+          [ngStyle]="{ backgroundColor: 'var(--light)' }"
+          (click)="modal.modalIn()"
+        >
+          <mat-icon>add</mat-icon>
+          Nuwe Afsender
+        </button>
+      </mat-expansion-panel>
+    </mat-accordion>
+    <button
+      mat-flat-button
+      [ngStyle]="{ backgroundColor: 'var(--red)' }"
+      (click)="signOut()"
+    >
+      Teken Uit
+    </button>
+  </nav>
+  <section>
+    <app-transaction *ngIf="activeTab == 0"></app-transaction>
+    <app-consignors
+      *ngIf="activeTab == 1"
+      [category]="reportCategory"
+    ></app-consignors>
+  </section>
+</div>

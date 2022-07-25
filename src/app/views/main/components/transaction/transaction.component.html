@@ -1,7 +1,7 @@
 <section class="container center-horizontal">
   <div>
     <form autocomplete="off" class="row">
-      <mat-form-field appearance="outline" id="kode" floatLabel="always">
+      <mat-form-field appearance="fill" id="kode" floatLabel="always">
         <mat-label>Kode</mat-label>
         <input
           id="code-input"
@@ -26,7 +26,7 @@
           <mat-icon>close</mat-icon>
         </button>
         <mat-error *ngIf="codeControl.invalid">
-          {{ codeControl.errors?.err }}
+          {{ codeControl.errors?.error }}
         </mat-error>
 
         <mat-autocomplete
@@ -41,7 +41,7 @@
         </mat-autocomplete>
       </mat-form-field>
 
-      <mat-form-field appearance="outline" id="item" floatLabel="always">
+      <mat-form-field appearance="fill" id="item" floatLabel="always">
         <mat-label>Item</mat-label>
         <input
           id="item-input"
@@ -78,7 +78,7 @@
         </mat-autocomplete>
       </mat-form-field>
 
-      <mat-form-field appearance="outline" id="amount" floatLabel="always">
+      <mat-form-field appearance="fill" id="amount" floatLabel="always">
         <mat-label>Aantal</mat-label>
         <input
           id="amount-input"
@@ -112,7 +112,7 @@
         </mat-autocomplete>
       </mat-form-field>
 
-      <mat-form-field appearance="outline" id="price" floatLabel="always">
+      <mat-form-field appearance="fill" id="price" floatLabel="always">
         <mat-label>Prys</mat-label>
         <span matPrefix>R &nbsp;</span>
         <input
@@ -126,7 +126,7 @@
         />
       </mat-form-field>
 
-      <mat-form-field appearance="outline" class="total" floatLabel="always">
+      <mat-form-field appearance="fill" class="total" floatLabel="always">
         <mat-label>Totaal</mat-label>
         <input
           disabled

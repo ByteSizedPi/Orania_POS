@@ -1,16 +1,24 @@
-import { HttpClient } from '@angular/common/http';
-import { Component, OnInit } from '@angular/core';
+import { UserService } from './../../shared/services/user.service';
+import { Component } from '@angular/core';
+import { NewConsignorService } from './components/consignors/new-consignor/new-consignor.service';
 
 @Component({
   selector: 'app-main',
   templateUrl: './main.component.html',
   styleUrls: ['./main.component.scss'],
 })
-export class MainComponent implements OnInit {
-  constructor(private http: HttpClient) {}
+export class MainComponent {
   activeTab = 0;
+  reportCategory = 0;
+  constructor(public modal: NewConsignorService, public user: UserService) {}
 
-  ngOnInit(): void {}
+  getColor = (index: number) => ({
+    backgroundColor: this.activeTab === index ? 'var(--bg)' : 'var(--bg-light)',
+  });
 
-  tabChange = (event: number) => (this.activeTab = event);
+  getBG = (stat: boolean) => ({
+    backgroundColor: stat ? 'var(--light)' : 'var(--bg-light)',
+  });
+
+  signOut = () => this.user.unsetUser();
 }

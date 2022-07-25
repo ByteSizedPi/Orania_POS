@@ -1,65 +1,40 @@
 <section>
-  <!-- <div class="column center-horizontal"> -->
-  <mat-card id="controls" class="column center-horizontal controls">
-    <mat-card-title-group>Afsender</mat-card-title-group>
-    <mat-card-content>
-      <mat-form-field appearance="outline">
-        <mat-label>Afsender</mat-label>
-        <mat-select (valueChange)="setConsignor($event)">
-          <mat-option
-            *ngFor="let consignor of allConsignors | async"
-            [value]="consignor"
-          >
-            {{ consignor.consignor_id }} {{ consignor.name_surname }}
-          </mat-option>
-        </mat-select>
-      </mat-form-field>
+  <div class="column controls-container">
+    <div class="card">
+      <h2>Afsender</h2>
+      <mat-card id="controls" class="column center-horizontal controls">
+        <mat-card-content>
+          <mat-form-field appearance="outline">
+            <mat-label>Afsender</mat-label>
+            <mat-select (valueChange)="setConsignor($event)">
+              <mat-option
+                *ngFor="let consignor of allConsignors | async"
+                [value]="consignor"
+              >
+                {{ consignor.consignor_id }} {{ consignor.name_surname }}
+              </mat-option>
+            </mat-select>
+          </mat-form-field>
 
-      <!-- <mat-form-field appearance="outline">
-        <mat-label>Voer n Datumreeks in</mat-label>
-        <mat-date-range-input [formGroup]="range" [rangePicker]="picker">
-          <input
-            matStartDate
-            formControlName="start"
-            placeholder="Begin Datum"
-            (dateChange)="setStart($event.value)"
-          />
-          <input
-            matEndDate
-            formControlName="end"
-            placeholder="Eind Datum"
-            (dateChange)="setEnd($event.value)"
-          />
-        </mat-date-range-input>
-        <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
-        <mat-date-range-picker #picker></mat-date-range-picker>
+          <date-picker (dateChange)="setStart($event.value)"></date-picker>
 
-        <mat-error *ngIf="range.controls.start.hasError('matStartDateInvalid')"
-          >Ongeldige Begin Datum</mat-error
-        >
-        <mat-error *ngIf="range.controls.end.hasError('matEndDateInvalid')"
-          >Ongeldige Eind Datum</mat-error
-        >
-      </mat-form-field> -->
-      <date-picker (dateChange)="setStart($event.value)"></date-picker>
-
-      <div class="row center-vertical space-between w-100 insta-toggles">
-        <button
-          id="date-shortcut"
-          color="accent"
-          mat-raised-button
-          [matMenuTriggerFor]="menu"
-          [disabled]="!curConsignor || !dateStart"
-        >
-          {{ dateShortcut }}
-        </button>
-        <mat-menu #menu="matMenu">
-          <button mat-menu-item (click)="setDay()">Dag</button>
-          <button mat-menu-item (click)="setWeek()">Week</button>
-          <button mat-menu-item (click)="setMonth()">Maand</button>
-          <button mat-menu-item (click)="setYear()">Jaar</button>
-        </mat-menu>
-        <!-- <button
+          <div class="row center-vertical space-between w-100 insta-toggles">
+            <button
+              id="date-shortcut"
+              color="accent"
+              mat-raised-button
+              [matMenuTriggerFor]="menu"
+              [disabled]="!curConsignor || !dateStart"
+            >
+              {{ dateShortcut }}
+            </button>
+            <mat-menu #menu="matMenu">
+              <button mat-menu-item (click)="setDay()">Dag</button>
+              <button mat-menu-item (click)="setWeek()">Week</button>
+              <button mat-menu-item (click)="setMonth()">Maand</button>
+              <button mat-menu-item (click)="setYear()">Jaar</button>
+            </mat-menu>
+            <!-- <button
             id="view-toggle"
             mat-raised-button
             [color]="this.visual ? 'warn' : 'accent'"
@@ -68,52 +43,68 @@
           >
             {{ this.visual ? "Data" : "Grafiek" }}
           </button> -->
-        <button
-          color="warn"
-          mat-raised-button
-          class="w-100"
-          [disabled]="!tableIsAvailable"
-          (click)="previewInvoice()"
-        >
-          <mat-icon>picture_as_pdf</mat-icon>
-          PDF
-        </button>
-      </div>
-    </mat-card-content>
-  </mat-card>
-  <!-- </div> -->
+          </div>
+        </mat-card-content>
+      </mat-card>
+    </div>
 
-  <mat-card>
-    <mat-card-title-group>
+    <div class="h-100">
+      <h2>Ander</h2>
+      <mat-card class="column center-horizontal controls h-100">
+        <mat-card-title>Verslag</mat-card-title>
+        <mat-card-content>
+          <button
+            color="warn"
+            mat-raised-button
+            class="w-100"
+            [disabled]="!tableIsAvailable"
+            (click)="previewInvoice()"
+          >
+            <mat-icon>picture_as_pdf</mat-icon>
+            PDF
+          </button>
+        </mat-card-content>
+        <mat-card-title>Voorstelling</mat-card-title>
+        <button color="basic" mat-raised-button class="w-100" disabled>
+          <!-- <mat-icon>picture_as_pdf</mat-icon> -->
+          Data
+        </button>
+      </mat-card>
+    </div>
+  </div>
+
+  <div class="column">
+    <h2>
       Transaksies vanaf:
       <span>
         {{ dateStart | date: "dd/MM/yyyy" }}
         -
         {{ dateEnd | date: "dd/MM/yyyy" }}
       </span>
-    </mat-card-title-group>
+    </h2>
+
     <div class="table-container" *ngIf="visual && tableIsAvailable">
       <app-table [tableObservable]="table"></app-table>
     </div>
 
-    <div class="chart" *ngIf="!visual && chartIsAvailable">
-      <ngx-charts-bar-vertical-stacked
-        [results]="chartData"
-        [xAxis]="true"
-        [yAxis]="true"
-        [legend]="true"
-        [showXAxisLabel]="true"
-        [showYAxisLabel]="true"
-        [xAxisLabel]="'Dag'"
-        [yAxisLabel]="'Totale Vekope'"
-        [animations]="true"
-        [scheme]="'aqua'"
-        [showDataLabel]="true"
-        [legendTitle]="'Items'"
-      >
-      </ngx-charts-bar-vertical-stacked>
-    </div>
-  </mat-card>
+    <!-- <div class="chart" *ngIf="!visual && chartIsAvailable">
+        <ngx-charts-bar-vertical-stacked
+          [results]="chartData"
+          [xAxis]="true"
+          [yAxis]="true"
+          [legend]="true"
+          [showXAxisLabel]="true"
+          [showYAxisLabel]="true"
+          [xAxisLabel]="'Dag'"
+          [yAxisLabel]="'Totale Vekope'"
+          [animations]="true"
+          [scheme]="'aqua'"
+          [showDataLabel]="true"
+          [legendTitle]="'Items'"
+        >
+        </ngx-charts-bar-vertical-stacked>
+      </div> -->
+  </div>
 </section>
 
 <app-invoice
